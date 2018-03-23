@@ -1,4 +1,4 @@
-package com.swedbank.itacademy.leasing.demoApp.beans.documents;
+package com.swedbank.itacademy.leasing.demoApp.models;
 
 import java.math.BigDecimal;
 import java.util.Date;

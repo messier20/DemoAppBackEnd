@@ -1,8 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
-import com.swedbank.itacademy.leasing.demoApp.beans.documents.CustomerLeasing;
-import com.swedbank.itacademy.leasing.demoApp.beans.documents.IncomingLeasingForm;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.swedbank.itacademy.leasing.demoApp.models.IncomingLeasingForm;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

@@ -1,20 +1,20 @@
-package com.swedbank.itacademy.leasing.demoApp.beans.documents;
+package com.swedbank.itacademy.leasing.demoApp.models;
 
 public class IncomingLeasingForm {
 
-        private String customerType;
-        private String assetType;
-        private String carBrand;
-        private String carModel;
-        private String manufacturedDate;
-        private String enginePower;
-        private String assetPrice;
-        private String advancePaymentPercentage;
-        private String advancePaymentAmount;
-        private String leasePeriodInMonths;
-        private String margin;
-        private String contractFee;
-        private String paymentDate;
+    private String customerType;
+    private String assetType;
+    private String carBrand;
+    private String carModel;
+    private String manufacturedDate;
+    private String enginePower;
+    private String assetPrice;
+    private String advancePaymentPercentage;
+    private String advancePaymentAmount;
+    private String leasePeriodInMonths;
+    private String margin;
+    private String contractFee;
+    private String paymentDate;
 
     public String getCustomerType() {
         return customerType;
