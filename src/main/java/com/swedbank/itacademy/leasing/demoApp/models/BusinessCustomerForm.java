@@ -1,6 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-public class BuisnessCustomerForm {
+public class BusinessCustomerForm {
 
     private String name;
     private Integer code;

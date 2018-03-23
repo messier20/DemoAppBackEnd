@@ -1,6 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-public class PrivateCustomerForm extends BuisnessCustomerForm {
+public class PrivateCustomerForm extends BusinessCustomerForm {
 
     private String lastName;
 

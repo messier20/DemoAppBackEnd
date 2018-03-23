@@ -1,8 +1,5 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-
 public class IncomingLeasingForm {
 
     private String customerType;
@@ -19,8 +16,7 @@ public class IncomingLeasingForm {
     private String contractFee;
     private String paymentDate;
 
-    @Id
-    private ObjectId id;
+
 
     public String getCustomerType() {
         return customerType;
