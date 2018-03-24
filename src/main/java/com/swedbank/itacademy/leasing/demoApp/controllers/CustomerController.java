@@ -1,8 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
-import com.swedbank.itacademy.leasing.demoApp.models.BusinessCustomerForm;
-import com.swedbank.itacademy.leasing.demoApp.models.CustomerLeasing;
-import com.swedbank.itacademy.leasing.demoApp.models.PrivateCustomerForm;
+import com.swedbank.itacademy.leasing.demoApp.models.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,19 +11,18 @@ import javax.validation.Valid;
 
 public class CustomerController {
     @RequestMapping(value = "/add-business-customer-form", method = RequestMethod.POST)
-    public String addBusinessCustomerForm(@Valid @RequestBody CustomerLeasing customerLeasingForm,
-                                          @Valid @RequestBody BusinessCustomerForm businessCustomerForm) {
+    public void addBusinessCustomerForm(@Valid @RequestBody BusinessFormsCombined businessFormsCombined) {
 
-        //return objectid
+        System.out.println("New business customer form received.");
+        System.out.println(businessFormsCombined.getBusinessCustomerForm().getEmail());
     }
 
     @RequestMapping(value = "/add-private-customer-form", method = RequestMethod.POST)
-    public String addPrivateCustomerForm(@Valid @RequestBody CustomerLeasing customerLeasingForm,
-                                         @Valid @RequestBody PrivateCustomerForm privateCustomerForm) {
-        //return
+    public void addPrivateCustomerForm(@Valid @RequestBody PrivateFormsCombined privateFormsCombined) {
+
+        System.out.println("New private customer form received.");
+        System.out.println(privateFormsCombined.getPrivateCustomerForm().getLastName());
+
     }
-
-
-
 
 }
