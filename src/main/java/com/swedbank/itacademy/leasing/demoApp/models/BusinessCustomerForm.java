@@ -1,12 +1,21 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-public class BuisnessCustomerForm {
+public class BusinessCustomerForm {
 
+    private CustomerType customerType;
     private String name;
-    private Integer code;
+    private Long code;
     private String email;
-    private Integer phoneNumber;
+    private Long phoneNumber;
     private String address;
+
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
 
     public String getName() {
         return name;
@@ -16,11 +25,11 @@ public class BuisnessCustomerForm {
         this.name = name;
     }
 
-    public Integer getCode() {
+    public Long getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Long code) {
         this.code = code;
     }
 
@@ -32,11 +41,11 @@ public class BuisnessCustomerForm {
         this.email = email;
     }
 
-    public Integer getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -44,7 +53,7 @@ public class BuisnessCustomerForm {
         return address;
     }
 
-    public void setAdress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

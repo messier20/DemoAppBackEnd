@@ -1,22 +1,48 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class CustomerLeasing {
+    @Id
+    private ObjectId id;
+    @NotNull
     private CustomerType customerType;
+    @NotNull
     private String assetType;
+    @NotNull
     private String carBrand;
+    @NotNull
     private String carModel;
+    @NotNull
     private Date manufacturedDate;
+    @NotNull
     private BigDecimal enginePower;
+    @NotNull
     private BigDecimal assetPrice;
-    private Integer advancePaymentPercentage;
-    private BigDecimal advancePaymentAmount;
+    @NotNull
+    private BigDecimal advancePaymentPercentage;
+    @NotNull
+    private String advancePaymentAmount;
+    @NotNull
     private Integer leasePeriodInMonths;
     private BigDecimal margin;
-    private BigDecimal contractFee;
+    @NotNull
+    private String contractFee;
+    @NotNull
     private Integer paymentDate;
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
     public CustomerType getCustomerType() {
         return customerType;
@@ -74,19 +100,19 @@ public class CustomerLeasing {
         this.assetPrice = assetPrice;
     }
 
-    public Integer getAdvancePaymentPercentage() {
+    public BigDecimal getAdvancePaymentPercentage() {
         return advancePaymentPercentage;
     }
 
-    public void setAdvancePaymentPercentage(Integer advancePaymentPercentage) {
+    public void setAdvancePaymentPercentage(BigDecimal advancePaymentPercentage) {
         this.advancePaymentPercentage = advancePaymentPercentage;
     }
 
-    public BigDecimal getAdvancePaymentAmount() {
+    public String getAdvancePaymentAmount() {
         return advancePaymentAmount;
     }
 
-    public void setAdvancePaymentAmount(BigDecimal advancePaymentAmount) {
+    public void setAdvancePaymentAmount(String advancePaymentAmount) {
         this.advancePaymentAmount = advancePaymentAmount;
     }
 
@@ -106,11 +132,11 @@ public class CustomerLeasing {
         this.margin = margin;
     }
 
-    public BigDecimal getContractFee() {
+    public String getContractFee() {
         return contractFee;
     }
 
-    public void setContractFee(BigDecimal contractFee) {
+    public void setContractFee(String contractFee) {
         this.contractFee = contractFee;
     }
 
