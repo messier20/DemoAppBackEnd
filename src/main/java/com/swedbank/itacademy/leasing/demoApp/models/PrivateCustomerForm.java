@@ -1,7 +1,12 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-public class PrivateCustomerForm extends BusinessCustomerForm {
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
+@Document(collection = "private-customer")
+public class PrivateCustomerForm extends BusinessCustomerForm {
+    @NotNull
     private String lastName;
 
     public String getLastName() {

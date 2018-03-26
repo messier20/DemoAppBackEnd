@@ -1,15 +1,10 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class CustomerLeasing {
-    @Id
-    private ObjectId id;
     @NotNull
     private CustomerType customerType;
     @NotNull
@@ -30,19 +25,12 @@ public class CustomerLeasing {
     private String advancePaymentAmount;
     @NotNull
     private Integer leasePeriodInMonths;
+    @NotNull
     private BigDecimal margin;
     @NotNull
     private String contractFee;
     @NotNull
     private Integer paymentDate;
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
 
     public CustomerType getCustomerType() {
         return customerType;
