@@ -30,6 +30,7 @@ public class CustomerLeasing {
     private String advancePaymentAmount;
     @NotNull
     private Integer leasePeriodInMonths;
+    @NotNull
     private BigDecimal margin;
     @NotNull
     private String contractFee;
