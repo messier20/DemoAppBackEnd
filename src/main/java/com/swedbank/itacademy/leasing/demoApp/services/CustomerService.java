@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -20,6 +21,10 @@ public class CustomerService {
                            BusinessCustomerRepository businessCustomerRepository) {
         this.privateCustomerRepository = privateCustomerRepository;
         this.businessCustomerRepository = businessCustomerRepository;
+    }
+
+    public List<PrivateFormsCombined> getAllPrivateFormsCombined() {
+        return privateCustomerRepository.findAll();
     }
 
     public String addPrivateFormsCombined(@Valid PrivateFormsCombined privateFormsCombined) {

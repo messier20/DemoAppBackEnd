@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -21,12 +22,16 @@ public class CustomerController {
 
     @RequestMapping(value = "/add-private-customer-form", method = RequestMethod.POST)
     public String addPrivateCustomerForm(@Valid @RequestBody PrivateFormsCombined privateFormsCombined) {
-
         return customerService.addPrivateFormsCombined(privateFormsCombined);
     }
 
     @RequestMapping(value = "/add-business-customer-form", method = RequestMethod.POST)
     public String addBusinessCustomerForm(@Valid @RequestBody BusinessFormsCombined businessFormsCombined) {
         return customerService.addBusinessFormsCombined(businessFormsCombined);
+    }
+
+    @RequestMapping(value = "/")
+    public List<PrivateFormsCombined> getAllPosts() {
+        return customerService.getAllPrivateFormsCombined();
     }
 }
