@@ -9,6 +9,8 @@ public class PrivateFormsCombined {
     @Id
     private ObjectId id;
     @NotNull
+    private ApplicationStatus status;
+    @NotNull
     private CustomerLeasing customerLeasingForm;
     @NotNull
     private PrivateCustomerForm privateCustomerForm;
@@ -19,6 +21,14 @@ public class PrivateFormsCombined {
 
     public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public ApplicationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ApplicationStatus status) {
+        this.status = status;
     }
 
     public CustomerLeasing getCustomerLeasingForm() {

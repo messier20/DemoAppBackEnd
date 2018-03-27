@@ -1,5 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
+import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
 import com.swedbank.itacademy.leasing.demoApp.models.BusinessFormsCombined;
 import com.swedbank.itacademy.leasing.demoApp.models.PrivateFormsCombined;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
@@ -27,6 +28,10 @@ public class CustomerService {
         return privateCustomerRepository.findAll();
     }
 
+    public List<PrivateFormsCombined> getAllByStatus(ApplicationStatus status) {
+        return privateCustomerRepository.findAllByStatus(status);
+    }
+
     public String addPrivateFormsCombined(@Valid PrivateFormsCombined privateFormsCombined) {
         privateFormsCombined.setId(new ObjectId());
         privateCustomerRepository.save(privateFormsCombined);
@@ -39,4 +44,7 @@ public class CustomerService {
         return businessFormsCombined.getId().toString();
     }
 
+    public PrivateFormsCombined getPrivateFormCombinedById(ObjectId id) {
+        return privateCustomerRepository.findPrivateCustomerById(id);
+    }
 }
