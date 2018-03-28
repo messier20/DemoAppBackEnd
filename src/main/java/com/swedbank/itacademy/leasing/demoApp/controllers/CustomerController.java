@@ -21,23 +21,43 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @RequestMapping(value = "/user/private", method = RequestMethod.GET)
+    public List<PrivateCustomerLeasing> getPrivateCustomerLeasing() {
+        return customerService.getAllPrivateCustomerLeasing();
+    }
+
+    @RequestMapping(value = "/user/business", method = RequestMethod.GET)
+    public List<BusinessCustomerLeasing> getBusinessCustomerLeasing() {
+        return customerService.getAllBusinessCustomerLeasing();
+    }
+
     @RequestMapping(value = "/user/private", method = RequestMethod.POST)
-    public String addPrivateCustomerForm(@Valid @RequestBody PrivateFormsCombined privateFormsCombined) {
-        return customerService.addPrivateFormsCombined(privateFormsCombined);
+    public String addPrivateCustomerLeasing(@Valid @RequestBody PrivateCustomerLeasing privateCustomerLeasing) {
+        return customerService.addPrivateCustomerLeasing(privateCustomerLeasing);
     }
 
     @RequestMapping(value = "/user/business", method = RequestMethod.POST)
-    public String addBusinessCustomerForm(@Valid @RequestBody BusinessFormsCombined businessFormsCombined) {
-        return customerService.addBusinessFormsCombined(businessFormsCombined);
+    public String addBusinessCustomerLeasing(@Valid @RequestBody BusinessCustomerLeasing businessCustomerLeasing) {
+        return customerService.addBusinessCustomerLeasing(businessCustomerLeasing);
     }
 
     @RequestMapping(value = "/user/private/{id}", method = RequestMethod.GET)
-    public PrivateFormsCombined getPrivateCustomerForm(@PathVariable("id") ObjectId id) {
-        return customerService.getPrivateFormCombinedById(id);
+    public PrivateCustomerLeasing getPrivateCustomerLeasingById(@PathVariable("id") ObjectId id) {
+        return customerService.getPrivateCustomerLeasingById(id);
     }
 
-    @RequestMapping(value = "/user/private/status/{status}")
-    public List<PrivateFormsCombined> getAllPosts(@PathVariable("status") ApplicationStatus status) {
-        return customerService.getAllByStatus(status);
+    @RequestMapping(value = "/user/business/{id}", method = RequestMethod.GET)
+    public BusinessCustomerLeasing getBusinessCustomerLeasingById(@PathVariable("id") ObjectId id) {
+        return customerService.getBusinessCustomerLeasingById(id);
+    }
+
+    @RequestMapping(value = "/user/private/status/{status}", method = RequestMethod.GET)
+    public List<PrivateCustomerLeasing> getAllPrivateCustomerLeasingByStatus(@PathVariable("status") ApplicationStatus status) {
+        return customerService.getAllPrivateCustomerLeasingByStatus(status);
+    }
+
+    @RequestMapping(value = "/user/business/status/{status}", method = RequestMethod.GET)
+    public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasingByStatus(@PathVariable("status") ApplicationStatus status) {
+        return customerService.getAllBusinessCustomerLeasingByStatus(status);
     }
 }

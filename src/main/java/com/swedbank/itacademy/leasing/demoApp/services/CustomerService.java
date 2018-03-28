@@ -1,8 +1,8 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
 import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import com.swedbank.itacademy.leasing.demoApp.models.BusinessFormsCombined;
-import com.swedbank.itacademy.leasing.demoApp.models.PrivateFormsCombined;
+import com.swedbank.itacademy.leasing.demoApp.models.BusinessCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.PrivateCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.PrivateCustomerRepository;
 import org.bson.types.ObjectId;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,27 +25,43 @@ public class CustomerService {
         this.businessCustomerRepository = businessCustomerRepository;
     }
 
-    public List<PrivateFormsCombined> getAllPrivateFormsCombined() {
-        return privateCustomerRepository.findAll();
+    public List<PrivateCustomerLeasing> getAllPrivateCustomerLeasing() {
+        List<PrivateCustomerLeasing> privateCustomerLeasings = privateCustomerRepository.findAll();
+        Collections.sort(privateCustomerLeasings);
+        return privateCustomerLeasings;
     }
 
-    public List<PrivateFormsCombined> getAllByStatus(ApplicationStatus status) {
+    public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasing() {
+        List<BusinessCustomerLeasing> businessCustomerLeasings = businessCustomerRepository.findAll();
+        Collections.sort(businessCustomerLeasings);
+        return businessCustomerLeasings;
+    }
+
+    public List<PrivateCustomerLeasing> getAllPrivateCustomerLeasingByStatus(ApplicationStatus status) {
         return privateCustomerRepository.findAllByStatus(status);
     }
 
-    public String addPrivateFormsCombined(@Valid PrivateFormsCombined privateFormsCombined) {
-        privateFormsCombined.setId(new ObjectId());
-        privateCustomerRepository.save(privateFormsCombined);
-        return privateFormsCombined.getId().toString();
+    public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasingByStatus(ApplicationStatus status) {
+        return businessCustomerRepository.findAllByStatus(status);
     }
 
-    public String addBusinessFormsCombined(@Valid BusinessFormsCombined businessFormsCombined) {
-        businessFormsCombined.setId(new ObjectId());
-        businessCustomerRepository.save(businessFormsCombined);
-        return businessFormsCombined.getId().toString();
+    public String addPrivateCustomerLeasing(@Valid PrivateCustomerLeasing privateCustomerLeasing) {
+        privateCustomerLeasing.setId(new ObjectId());
+        privateCustomerRepository.save(privateCustomerLeasing);
+        return privateCustomerLeasing.getId().toString();
     }
 
-    public PrivateFormsCombined getPrivateFormCombinedById(ObjectId id) {
-        return privateCustomerRepository.findPrivateCustomerById(id);
+    public String addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
+        businessCustomerLeasing.setId(new ObjectId());
+        businessCustomerRepository.save(businessCustomerLeasing);
+        return businessCustomerLeasing.getId().toString();
+    }
+
+    public PrivateCustomerLeasing getPrivateCustomerLeasingById(ObjectId id) {
+        return privateCustomerRepository.findById(id);
+    }
+
+    public BusinessCustomerLeasing getBusinessCustomerLeasingById(ObjectId id) {
+        return businessCustomerRepository.findById(id);
     }
 }
