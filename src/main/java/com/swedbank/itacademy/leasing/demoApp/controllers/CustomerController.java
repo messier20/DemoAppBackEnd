@@ -33,6 +33,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/user/private", method = RequestMethod.POST)
     public String addPrivateCustomerLeasing(@Valid @RequestBody PrivateCustomerLeasing privateCustomerLeasing) {
+        privateCustomerLeasing.setStatus(ApplicationStatus.PENDING);
         return customerService.addPrivateCustomerLeasing(privateCustomerLeasing);
     }
 

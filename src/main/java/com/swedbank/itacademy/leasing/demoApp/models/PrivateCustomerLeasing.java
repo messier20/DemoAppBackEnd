@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 public class PrivateCustomerLeasing implements Comparable<PrivateCustomerLeasing> {
     @Id
     private ObjectId id;
-    @NotNull
     private ApplicationStatus status;
     @NotNull
     private CustomerLeasing customerLeasing;
