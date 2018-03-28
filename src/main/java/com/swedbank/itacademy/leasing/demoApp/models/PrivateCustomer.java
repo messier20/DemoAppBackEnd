@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "private-customer")
-public class PrivateCustomerForm extends BusinessCustomerForm {
+public class PrivateCustomer extends BusinessCustomer {
     @NotNull
     private String lastName;
 
