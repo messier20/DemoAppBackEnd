@@ -1,6 +1,8 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
 import com.swedbank.itacademy.leasing.demoApp.models.*;
+import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.services.CustomerService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/user/business", method = RequestMethod.POST)
     public String addBusinessCustomerLeasing(@Valid @RequestBody BusinessCustomerLeasing businessCustomerLeasing) {
+        businessCustomerLeasing.setStatus(ApplicationStatus.PENDING);
         return customerService.addBusinessCustomerLeasing(businessCustomerLeasing);
     }
 

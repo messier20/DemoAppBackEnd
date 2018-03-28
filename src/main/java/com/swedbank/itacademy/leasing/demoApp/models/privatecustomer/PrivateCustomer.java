@@ -1,5 +1,6 @@
-package com.swedbank.itacademy.leasing.demoApp.models;
+package com.swedbank.itacademy.leasing.demoApp.models.privatecustomer;
 
+import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomer;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
