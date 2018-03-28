@@ -1,7 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.repositories;
 
 import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import com.swedbank.itacademy.leasing.demoApp.models.BusinessCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
 import org.bson.types.ObjectId;
 import org.springframework.data.repository.CrudRepository;
 

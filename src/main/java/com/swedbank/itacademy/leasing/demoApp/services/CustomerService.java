@@ -1,8 +1,8 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
 import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import com.swedbank.itacademy.leasing.demoApp.models.BusinessCustomerLeasing;
-import com.swedbank.itacademy.leasing.demoApp.models.PrivateCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.PrivateCustomerRepository;
 import org.bson.types.ObjectId;

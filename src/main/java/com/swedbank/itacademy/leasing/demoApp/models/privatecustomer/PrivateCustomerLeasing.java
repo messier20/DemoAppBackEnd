@@ -1,18 +1,20 @@
-package com.swedbank.itacademy.leasing.demoApp.models;
+package com.swedbank.itacademy.leasing.demoApp.models.privatecustomer;
 
+import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
+import com.swedbank.itacademy.leasing.demoApp.models.CustomerLeasing;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 
-public class BusinessCustomerLeasing implements Comparable<BusinessCustomerLeasing> {
+public class PrivateCustomerLeasing implements Comparable<PrivateCustomerLeasing> {
     @Id
     private ObjectId id;
     private ApplicationStatus status;
     @NotNull
     private CustomerLeasing customerLeasing;
     @NotNull
-    private BusinessCustomer businessCustomer;
+    private PrivateCustomer privateCustomer;
 
     public ObjectId getId() {
         return id;
@@ -38,16 +40,16 @@ public class BusinessCustomerLeasing implements Comparable<BusinessCustomerLeasi
         this.customerLeasing = customerLeasing;
     }
 
-    public BusinessCustomer getBusinessCustomer() {
-        return businessCustomer;
+    public PrivateCustomer getPrivateCustomer() {
+        return privateCustomer;
     }
 
-    public void setBusinessCustomer(BusinessCustomer businessCustomer) {
-        this.businessCustomer = businessCustomer;
+    public void setPrivateCustomer(PrivateCustomer privateCustomer) {
+        this.privateCustomer = privateCustomer;
     }
 
     @Override
-    public int compareTo(BusinessCustomerLeasing o) {
+    public int compareTo(PrivateCustomerLeasing o) {
         return  o.getId().getTimestamp() - this.getId().getTimestamp();
     }
 }

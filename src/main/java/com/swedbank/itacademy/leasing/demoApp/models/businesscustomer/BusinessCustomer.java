@@ -1,4 +1,6 @@
-package com.swedbank.itacademy.leasing.demoApp.models;
+package com.swedbank.itacademy.leasing.demoApp.models.businesscustomer;
+
+import com.swedbank.itacademy.leasing.demoApp.models.CustomerType;
 
 public class BusinessCustomer {
     private CustomerType customerType;
