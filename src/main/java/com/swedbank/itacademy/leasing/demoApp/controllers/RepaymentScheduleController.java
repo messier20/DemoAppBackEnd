@@ -1,7 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
 import com.swedbank.itacademy.leasing.demoApp.models.repayments.LoanCalculatorInput;
-import com.swedbank.itacademy.leasing.demoApp.models.repayments.RepaymentPlan;
+import com.swedbank.itacademy.leasing.demoApp.models.repayments.RepaymentSchedule;
 import com.swedbank.itacademy.leasing.demoApp.services.RepaymentScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +20,9 @@ public class RepaymentScheduleController {
         this.repaymentScheduleService = repaymentScheduleService;
     }
 
-    @RequestMapping(value = "/user/calculator", method = RequestMethod.POST)
-    public RepaymentPlan addBusinessCustomerLeasing(@Valid @RequestBody LoanCalculatorInput loanCalculatorInput) {
-        return repaymentScheduleService.calculateRepaymentPlan(loanCalculatorInput);
+    @RequestMapping(value = "/user/calculator/loan/vehicle", method = RequestMethod.POST)
+    public RepaymentSchedule addBusinessCustomerLeasing(@Valid @RequestBody LoanCalculatorInput loanCalculatorInput) {
+        return repaymentScheduleService.calculateRepaymentSchedule(loanCalculatorInput);
     }
 
 }
