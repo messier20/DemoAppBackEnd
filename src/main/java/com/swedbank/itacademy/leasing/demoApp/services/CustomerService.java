@@ -1,5 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
+import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
 import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
 import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
@@ -45,16 +46,22 @@ public class CustomerService {
         return businessCustomerRepository.findAllByStatus(status);
     }
 
-    public String addPrivateCustomerLeasing(@Valid PrivateCustomerLeasing privateCustomerLeasing) {
+    public ObjectIdContainer addPrivateCustomerLeasing(@Valid PrivateCustomerLeasing privateCustomerLeasing) {
         privateCustomerLeasing.setId(new ObjectId());
         privateCustomerRepository.save(privateCustomerLeasing);
-        return privateCustomerLeasing.getId().toString();
+
+        ObjectIdContainer idContainer = new ObjectIdContainer();
+        idContainer.setId(privateCustomerLeasing.getId().toString());
+        return idContainer;
     }
 
-    public String addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
+    public ObjectIdContainer addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
         businessCustomerLeasing.setId(new ObjectId());
         businessCustomerRepository.save(businessCustomerLeasing);
-        return businessCustomerLeasing.getId().toString();
+
+        ObjectIdContainer idContainer = new ObjectIdContainer();
+        idContainer.setId(businessCustomerLeasing.getId().toString());
+        return idContainer;
     }
 
     public PrivateCustomerLeasing getPrivateCustomerLeasingById(ObjectId id) {

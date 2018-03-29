@@ -1,5 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
+import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
 import com.swedbank.itacademy.leasing.demoApp.models.*;
 import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
@@ -34,13 +35,13 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/user/private", method = RequestMethod.POST)
-    public String addPrivateCustomerLeasing(@Valid @RequestBody PrivateCustomerLeasing privateCustomerLeasing) {
+    public ObjectIdContainer addPrivateCustomerLeasing(@Valid @RequestBody PrivateCustomerLeasing privateCustomerLeasing) {
         privateCustomerLeasing.setStatus(ApplicationStatus.PENDING);
         return customerService.addPrivateCustomerLeasing(privateCustomerLeasing);
     }
 
     @RequestMapping(value = "/user/business", method = RequestMethod.POST)
-    public String addBusinessCustomerLeasing(@Valid @RequestBody BusinessCustomerLeasing businessCustomerLeasing) {
+    public ObjectIdContainer addBusinessCustomerLeasing(@Valid @RequestBody BusinessCustomerLeasing businessCustomerLeasing) {
         businessCustomerLeasing.setStatus(ApplicationStatus.PENDING);
         return customerService.addBusinessCustomerLeasing(businessCustomerLeasing);
     }
