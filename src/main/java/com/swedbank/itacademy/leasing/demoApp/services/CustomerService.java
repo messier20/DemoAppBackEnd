@@ -1,6 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
 import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
+import com.swedbank.itacademy.leasing.demoApp.beans.UpdateResponse;
 import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
 import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
@@ -51,9 +52,7 @@ public class CustomerService {
         privateCustomerLeasing.setIdHex(privateCustomerLeasing.getId().toString());
         privateCustomerRepository.save(privateCustomerLeasing);
 
-        ObjectIdContainer idContainer = new ObjectIdContainer();
-        idContainer.setId(privateCustomerLeasing.getId().toString());
-        return idContainer;
+        return addIdToContainer(privateCustomerLeasing.getId());
     }
 
     public ObjectIdContainer addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
@@ -61,9 +60,7 @@ public class CustomerService {
         businessCustomerLeasing.setIdHex(businessCustomerLeasing.getId().toString());
         businessCustomerRepository.save(businessCustomerLeasing);
 
-        ObjectIdContainer idContainer = new ObjectIdContainer();
-        idContainer.setId(businessCustomerLeasing.getId().toString());
-        return idContainer;
+        return addIdToContainer(businessCustomerLeasing.getId());
     }
 
     public PrivateCustomerLeasing getPrivateCustomerLeasingById(ObjectId id) {
@@ -72,5 +69,25 @@ public class CustomerService {
 
     public BusinessCustomerLeasing getBusinessCustomerLeasingById(ObjectId id) {
         return businessCustomerRepository.findById(id);
+    }
+
+    private ObjectIdContainer addIdToContainer(ObjectId id) {
+        ObjectIdContainer idContainer = new ObjectIdContainer();
+        idContainer.setId(id.toString());
+        return idContainer;
+    }
+
+    public UpdateResponse updatePrivateCustomer(ObjectId id, @Valid PrivateCustomerLeasing customer) {
+        PrivateCustomerLeasing leasing = privateCustomerRepository.findById(id);
+        leasing.setStatus(customer.getStatus());
+        privateCustomerRepository.save(leasing);
+        return new UpdateResponse(leasing.getId().toString(), leasing.getStatus());
+    }
+
+    public UpdateResponse updateBusinessCustomer(ObjectId id, @Valid BusinessCustomerLeasing customer) {
+        BusinessCustomerLeasing leasing = businessCustomerRepository.findById(id);
+        leasing.setStatus(customer.getStatus());
+        businessCustomerRepository.save(leasing);
+        return new UpdateResponse(leasing.getId().toString(), leasing.getStatus());
     }
 }

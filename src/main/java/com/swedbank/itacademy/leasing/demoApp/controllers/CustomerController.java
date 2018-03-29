@@ -1,7 +1,9 @@
 package com.swedbank.itacademy.leasing.demoApp.controllers;
 
 import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
+import com.swedbank.itacademy.leasing.demoApp.beans.UpdateResponse;
 import com.swedbank.itacademy.leasing.demoApp.models.*;
+import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.services.CustomerService;
@@ -64,5 +66,17 @@ public class CustomerController {
     @RequestMapping(value = "/user/business/status/{status}", method = RequestMethod.GET)
     public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasingByStatus(@PathVariable("status") ApplicationStatus status) {
         return customerService.getAllBusinessCustomerLeasingByStatus(status);
+    }
+
+    @RequestMapping(value = "/user/private/update/{id}", method = RequestMethod.PUT)
+    public UpdateResponse updatePrivateCustomerStatus(@Valid @RequestBody PrivateCustomerLeasing customer,
+                                                      @PathVariable("id") ObjectId id) {
+        return customerService.updatePrivateCustomer(id, customer);
+    }
+
+    @RequestMapping(value = "/user/business/update/{id}", method = RequestMethod.PUT)
+    public UpdateResponse updateBusinessCustomer(@Valid @RequestBody BusinessCustomerLeasing customer,
+                                                 @PathVariable("id") ObjectId id) {
+        return customerService.updateBusinessCustomer(id, customer);
     }
 }
