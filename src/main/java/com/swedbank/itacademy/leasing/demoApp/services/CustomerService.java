@@ -48,6 +48,7 @@ public class CustomerService {
 
     public ObjectIdContainer addPrivateCustomerLeasing(@Valid PrivateCustomerLeasing privateCustomerLeasing) {
         privateCustomerLeasing.setId(new ObjectId());
+        privateCustomerLeasing.setIdHex(privateCustomerLeasing.getId().toString());
         privateCustomerRepository.save(privateCustomerLeasing);
 
         ObjectIdContainer idContainer = new ObjectIdContainer();
@@ -57,6 +58,7 @@ public class CustomerService {
 
     public ObjectIdContainer addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
         businessCustomerLeasing.setId(new ObjectId());
+        businessCustomerLeasing.setIdHex(businessCustomerLeasing.getId().toString());
         businessCustomerRepository.save(businessCustomerLeasing);
 
         ObjectIdContainer idContainer = new ObjectIdContainer();
