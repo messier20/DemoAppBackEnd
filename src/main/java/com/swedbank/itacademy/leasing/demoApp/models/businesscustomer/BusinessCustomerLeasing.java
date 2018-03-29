@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 public class BusinessCustomerLeasing implements Comparable<BusinessCustomerLeasing> {
     @Id
     private ObjectId id;
+    private String idHex;
     private ApplicationStatus status;
     @NotNull
     private CustomerLeasing customerLeasing;
@@ -22,6 +23,14 @@ public class BusinessCustomerLeasing implements Comparable<BusinessCustomerLeasi
 
     public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public String getIdHex() {
+        return idHex;
+    }
+
+    public void setIdHex(String idHex) {
+        this.idHex = idHex;
     }
 
     public ApplicationStatus getStatus() {
