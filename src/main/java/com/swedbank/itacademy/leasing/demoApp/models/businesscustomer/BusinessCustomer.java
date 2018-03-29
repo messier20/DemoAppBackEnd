@@ -3,20 +3,11 @@ package com.swedbank.itacademy.leasing.demoApp.models.businesscustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.CustomerType;
 
 public class BusinessCustomer {
-    private CustomerType customerType;
     private String name;
     private Long code;
     private String email;
     private Long phoneNumber;
     private String address;
-
-    public CustomerType getCustomerType() {
-        return customerType;
-    }
-
-    public void setCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
 
     public String getName() {
         return name;
