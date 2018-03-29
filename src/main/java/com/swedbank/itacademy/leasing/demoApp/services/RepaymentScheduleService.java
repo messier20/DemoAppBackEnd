@@ -24,16 +24,20 @@ public class RepaymentScheduleService {
     }
 
     private RepaymentSchedule calculateRepayments(LoanCalculatorInput loanCalculatorInput) {
+
         RepaymentSchedule repaymentSchedule = new RepaymentSchedule();
         List<Repayment> repayments = new ArrayList<>();
         Repayment previousRepayment;
         Repayment currentRepayment;
+
         BigDecimal preciseInterest = LoanUtils.calculatePreciseInterest(loanCalculatorInput.getMargin(), new BigDecimal("12"));
         BigDecimal monthlyPayment = calculateMonthlyPayment(loanCalculatorInput, preciseInterest);
-        currentRepayment = calculateNextRepayment(loanCalculatorInput);
+
+        currentRepayment = calculateFirstRepayment(loanCalculatorInput);
         repayments.add(currentRepayment);
 
         for (int i = 1; i <= loanCalculatorInput.getLeasePeriodInMonths().intValue(); i++) {
+
             previousRepayment = currentRepayment;
             currentRepayment = calculateNextRepayment(previousRepayment, loanCalculatorInput.getPaymentDate(), preciseInterest, monthlyPayment);
             repayments.add(currentRepayment);
@@ -53,7 +57,7 @@ public class RepaymentScheduleService {
     }
 
 
-    private Repayment calculateNextRepayment(LoanCalculatorInput loanCalculatorInput) {
+    private Repayment calculateFirstRepayment(LoanCalculatorInput loanCalculatorInput) {
         Repayment repayment = new Repayment();
 
         repayment.setRepaymentDate(DateUtils.dateToString(this.calcNextPaymentDate(loanCalculatorInput.getPaymentDate())));
@@ -61,7 +65,8 @@ public class RepaymentScheduleService {
         repayment.setAssetValuePaymentAmount(new BigDecimal(loanCalculatorInput.getAdvancePaymentAmount()));
         repayment.setInterestPaymentAmount(BigDecimal.ZERO);
         repayment.setContractFee(new BigDecimal(loanCalculatorInput.getContractFee()));
-        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment.getAssetValuePaymentAmount(), repayment.getInterestPaymentAmount(), repayment.getContractFee()));
+        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment.getAssetValuePaymentAmount(),
+                repayment.getInterestPaymentAmount(), repayment.getContractFee()));
 
         return repayment;
     }
@@ -70,11 +75,20 @@ public class RepaymentScheduleService {
         Repayment repayment = new Repayment();
 
         repayment.setRepaymentDate(DateUtils.dateToString(this.calcNextPaymentDate(previousRepayment.getRepaymentDate(), paymentDate)));
-        repayment.setRemainingAmountToRepay(LoanUtils.calculateRemainingAmountToRepay(previousRepayment.getRemainingAmountToRepay(), previousRepayment.getAssetValuePaymentAmount()));
+        repayment.setRemainingAmountToRepay(LoanUtils.calculateRemainingAmountToRepay(previousRepayment.getRemainingAmountToRepay(),
+                previousRepayment.getAssetValuePaymentAmount()));
         repayment.setInterestPaymentAmount(LoanUtils.calculateInterestAmount(repayment.getRemainingAmountToRepay(), leaseInterest));
-        repayment.setAssetValuePaymentAmount(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, repayment.getInterestPaymentAmount()));
+
+        BigDecimal tempAssetValuePayment = LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, repayment.getInterestPaymentAmount());
+        if (tempAssetValuePayment.compareTo(repayment.getRemainingAmountToRepay()) > 0) {
+            repayment.setAssetValuePaymentAmount(repayment.getRemainingAmountToRepay());
+        } else {
+            repayment.setAssetValuePaymentAmount(tempAssetValuePayment);
+        }
+
         repayment.setContractFee(BigDecimal.ZERO);
-        repayment.setTotalPaymentAmount(monthlyPayment);
+        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment.getAssetValuePaymentAmount(),
+                repayment.getInterestPaymentAmount(), repayment.getContractFee()));
 
         return repayment;
     }
@@ -97,4 +111,5 @@ public class RepaymentScheduleService {
         date = DateUtils.changeDayOfMonth(date, paymentDate);
         return date;
     }
+
 }

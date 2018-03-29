@@ -50,43 +50,43 @@ public class LoanUtilsTest {
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("9"), periodsPerYear);
         BigDecimal leasePeriods = new BigDecimal("24");
         assertEquals(LoanUtils.calculateMonthlyAnnuityPayment(leasePresentValue, leaseFutureValue, leaseInterest, leasePeriods),
-                new BigDecimal("121.71"));
+                new BigDecimal("121.7119"));
 
         leasePresentValue = new BigDecimal("15000");
         leaseFutureValue = BigDecimal.ZERO;
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("4"), periodsPerYear);
         leasePeriods = new BigDecimal("36");
         assertEquals(LoanUtils.calculateMonthlyAnnuityPayment(leasePresentValue, leaseFutureValue, leaseInterest, leasePeriods),
-                new BigDecimal("442.86"));
+                new BigDecimal("442.8598"));
 
         leasePresentValue = new BigDecimal("999999");
         leaseFutureValue = BigDecimal.ZERO;
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("7"), periodsPerYear);
         leasePeriods = new BigDecimal("72");
         assertEquals(LoanUtils.calculateMonthlyAnnuityPayment(leasePresentValue, leaseFutureValue, leaseInterest, leasePeriods),
-                new BigDecimal("17048.99"));
+                new BigDecimal("17048.9894"));
 
         leasePresentValue = new BigDecimal("543254");
         leaseFutureValue = BigDecimal.ZERO;
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("11"), periodsPerYear);
         leasePeriods = new BigDecimal("54");
         assertEquals(LoanUtils.calculateMonthlyAnnuityPayment(leasePresentValue, leaseFutureValue, leaseInterest, leasePeriods),
-                new BigDecimal("12799.87"));
+                new BigDecimal("12799.8723"));
     }
 
     @Test
     public void calculateInterestAmount() throws Exception {
         this.remainingAmountToRepay = new BigDecimal("10000");
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("9"), periodsPerYear);
-        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("75.00"));
+        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("75").setScale(4, RoundingMode.HALF_UP));
 
         this.remainingAmountToRepay = new BigDecimal("12345");
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("4"), periodsPerYear);
-        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("41.15"));
+        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("41.15").setScale(4, RoundingMode.HALF_UP));
 
         this.remainingAmountToRepay = new BigDecimal("323222");
         this.leaseInterest = LoanUtils.calculatePreciseInterest(new BigDecimal("3.2"), periodsPerYear);
-        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("861.93"));
+        assertEquals(LoanUtils.calculateInterestAmount(remainingAmountToRepay, leaseInterest), new BigDecimal("861.9253").setScale(4, RoundingMode.HALF_UP));
 
     }
 
@@ -95,15 +95,15 @@ public class LoanUtilsTest {
 
         BigDecimal monthlyPayment = new BigDecimal("1000");
         this.interestPaymentAmount = new BigDecimal("400");
-        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("600.00"));
+        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("600").setScale(4, RoundingMode.HALF_UP));
 
         monthlyPayment = new BigDecimal("12345.23");
         this.interestPaymentAmount = new BigDecimal("333.33");
-        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("12011.90"));
+        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("12011.9").setScale(4, RoundingMode.HALF_UP));
 
         monthlyPayment = new BigDecimal("1111");
         this.interestPaymentAmount = new BigDecimal("1111");
-        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("0.00"));
+        assertEquals(LoanUtils.calculateAssetValuePaymentAmount(monthlyPayment, interestPaymentAmount), new BigDecimal("0").setScale(4, RoundingMode.HALF_UP));
 
     }
 
@@ -112,15 +112,15 @@ public class LoanUtilsTest {
 
         this.remainingAmountToRepay = new BigDecimal("1000");
         this.assetValuePaymentAmount = new BigDecimal("123");
-        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("877.00"));
+        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("877").setScale(4, RoundingMode.HALF_UP));
 
         this.remainingAmountToRepay = new BigDecimal("1000");
         this.assetValuePaymentAmount = new BigDecimal("1000");
-        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("0.00"));
+        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("0").setScale(4, RoundingMode.HALF_UP));
 
         this.remainingAmountToRepay = new BigDecimal("1000.33");
         this.assetValuePaymentAmount = new BigDecimal("123.12");
-        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("877.21"));
+        assertEquals(LoanUtils.calculateRemainingAmountToRepay(remainingAmountToRepay, assetValuePaymentAmount), new BigDecimal("877.21").setScale(4, RoundingMode.HALF_UP));
 
     }
 
@@ -128,13 +128,13 @@ public class LoanUtilsTest {
     public void calculatePreciseInterest() throws Exception {
 
         BigDecimal margin = new BigDecimal("3");
-        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.0025).setScale(8, RoundingMode.HALF_UP));
+        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.0025).setScale(10, RoundingMode.HALF_UP));
 
         margin = new BigDecimal("3.2");
-        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.00266667).setScale(8, RoundingMode.HALF_UP));
+        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.0026666667).setScale(10, RoundingMode.HALF_UP));
 
         margin = new BigDecimal("100");
-        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.08333333).setScale(8, RoundingMode.HALF_UP));
+        assertEquals(LoanUtils.calculatePreciseInterest(margin, periodsPerYear), new BigDecimal(0.0833333333).setScale(10, RoundingMode.HALF_UP));
     }
 
 }
