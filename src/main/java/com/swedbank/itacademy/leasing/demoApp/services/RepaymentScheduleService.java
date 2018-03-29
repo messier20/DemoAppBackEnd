@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class RepaymentScheduleService {
 
         for (int i = 1; i <= loanCalculatorInput.getLeasePeriodInMonths().intValue(); i++) {
             previousRepayment = currentRepayment;
-            currentRepayment = calculateNextRepayment(previousRepayment, loanCalculatorInput.getPaymentDate(), loanCalculatorInput.getMargin(), monthlyPayment);
+            currentRepayment = calculateNextRepayment(previousRepayment, loanCalculatorInput.getPaymentDate(), preciseInterest, monthlyPayment);
             repayments.add(currentRepayment);
         }
 
