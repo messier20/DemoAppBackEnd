@@ -1,57 +1,37 @@
 package com.swedbank.itacademy.leasing.demoApp.utils;
 
-import com.swedbank.itacademy.leasing.demoApp.models.repayments.Repayment;
-
 import java.math.BigDecimal;
-import java.util.Date;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class LoanUtils {
 
-    private static Repayment[] repaymentPlan;
-    private static Repayment lastRepayment;
-    private static Repayment repayment;
-    private static Date lastDate;
-    private static BigDecimal contractFee;
-    private static BigDecimal margin;
-    private static BigDecimal advancePaymentAmount;
-
-    public static void calculateRepayments() {
-        calculateFirstRepayment();
-        addRepayment(repayment);
-        lastRepayment = repayment;
-        repayment = new Repayment();
-        for (int i = 1; i <= leasingCalculator.leasePeriodInMonths; i++) {
-            calculateNextRepayment();
-            addRepayment(repayment);
-            lastRepayment = repayment;
-            repayment = new Repayment();
-        }
+    public static BigDecimal calculateTotalPaymentAmount(BigDecimal assetPaymentAmount, BigDecimal interestPaymentAmount, BigDecimal contractFee) {
+        return assetPaymentAmount.add(interestPaymentAmount.add(contractFee));
     }
 
-    private static void calculateFirstRepayment() {
-        lastDate = DateUtils.calcFirstPaymentDate();
-        repayment.setRepaymentDate(DateUtils.dateToString(lastDate));
-        repayment.setRemainingAmountToRepay(leasingCalculator.assetPrice.toFixed(2));
-        repayment.setAssetValuePaymentAmount(advancePaymentAmount.toFixed(2));
-        repayment.setInterestPaymentAmount(Number(0).toFixed(2));
-        repayment.setContractFee(leasingCalculator.contractFee);
-        repayment.setTotalPaymentAmount((advancePaymentAmount+contractFee).toFixed(2));
-
+    public static BigDecimal calculateMonthlyAnnuityPayment(BigDecimal leasePresentValue, BigDecimal leaseFutureValue, BigDecimal leaseInterest, BigDecimal leasePeriods) {
+        BigDecimal numerator = leasePresentValue.subtract(leaseFutureValue
+                .divide(BigDecimal.ONE.add(leaseInterest).pow(leasePeriods.intValue()), 20, RoundingMode.HALF_UP));
+        BigDecimal denominator = BigDecimal.ONE.subtract(BigDecimal.ONE
+                .divide(BigDecimal.ONE.add(leaseInterest).pow(leasePeriods.intValue()), 20, RoundingMode.HALF_UP))
+                .divide(leaseInterest, 20, RoundingMode.HALF_UP);
+        return numerator.divide(denominator, 2, RoundingMode.HALF_UP);
     }
 
-    private static void calculateNextRepayment() {
-        lastDate = DateUtils.calcNextPaymentDate(lastDate, this.leasingCalculator.paymentDate);
-        repayment.setRepaymentDate(DateUtils.dateToString(lastDate));
-        repayment.setRemainingAmountToRepay((Number.parseFloat(lastRepayment.getRemainingAmountToRepay())
-                - Number.parseFloat(lastRepayment.getAssetValuePaymentAmount())).toFixed(2));
-        repayment.setAssetValuePaymentAmount();
-        repayment.setInterestPaymentAmount();
-        repayment.setContractFee("");
-        repayment.setTotalPaymentAmount();
+    public static BigDecimal calculateInterestAmount(BigDecimal remainingAmountToRepay, BigDecimal leaseInterest) {
+        return remainingAmountToRepay.multiply(leaseInterest).round(new MathContext(2));
     }
 
-    private static void addRepayment(Repayment repayment) {
-        repaymentPlan[0] = repayment;
+    public static BigDecimal calculateAssetValuePaymentAmount(BigDecimal monthlyPayment, BigDecimal interestPaymentAmount) {
+        return monthlyPayment.subtract(interestPaymentAmount).round(new MathContext(2));
     }
 
+    public static BigDecimal calculateRemainingAmountToRepay(BigDecimal remainingAmountToRepay, BigDecimal assetValuePayment) {
+        return remainingAmountToRepay.subtract(assetValuePayment).round(new MathContext(2));
+    }
+
+    public static BigDecimal calculatePreciseInterest(BigDecimal margin, BigDecimal periodsPerYear) {
+        return margin.divide(new BigDecimal("100"), 8, RoundingMode.HALF_UP).divide(periodsPerYear, 8, RoundingMode.HALF_UP);
+    }
 }

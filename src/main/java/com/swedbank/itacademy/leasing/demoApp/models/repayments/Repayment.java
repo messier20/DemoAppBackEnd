@@ -1,12 +1,14 @@
 package com.swedbank.itacademy.leasing.demoApp.models.repayments;
 
+import java.math.BigDecimal;
+
 public class Repayment {
     private String repaymentDate;
-    private String remainingAmountToRepay;
-    private String assetValuePaymentAmount;
-    private String interestPaymentAmount;
-    private String contractFee;
-    private String totalPaymentAmount;
+    private BigDecimal remainingAmountToRepay;
+    private BigDecimal assetValuePaymentAmount;
+    private BigDecimal interestPaymentAmount;
+    private BigDecimal contractFee;
+    private BigDecimal totalPaymentAmount;
 
     public String getRepaymentDate() {
         return repaymentDate;
@@ -16,43 +18,43 @@ public class Repayment {
         this.repaymentDate = repaymentDate;
     }
 
-    public String getRemainingAmountToRepay() {
+    public BigDecimal getRemainingAmountToRepay() {
         return remainingAmountToRepay;
     }
 
-    public void setRemainingAmountToRepay(String remainingAmountToRepay) {
+    public void setRemainingAmountToRepay(BigDecimal remainingAmountToRepay) {
         this.remainingAmountToRepay = remainingAmountToRepay;
     }
 
-    public String getAssetValuePaymentAmount() {
+    public BigDecimal getAssetValuePaymentAmount() {
         return assetValuePaymentAmount;
     }
 
-    public void setAssetValuePaymentAmount(String assetValuePaymentAmount) {
+    public void setAssetValuePaymentAmount(BigDecimal assetValuePaymentAmount) {
         this.assetValuePaymentAmount = assetValuePaymentAmount;
     }
 
-    public String getInterestPaymentAmount() {
+    public BigDecimal getInterestPaymentAmount() {
         return interestPaymentAmount;
     }
 
-    public void setInterestPaymentAmount(String interestPaymentAmount) {
+    public void setInterestPaymentAmount(BigDecimal interestPaymentAmount) {
         this.interestPaymentAmount = interestPaymentAmount;
     }
 
-    public String getContractFee() {
+    public BigDecimal getContractFee() {
         return contractFee;
     }
 
-    public void setContractFee(String contractFee) {
+    public void setContractFee(BigDecimal contractFee) {
         this.contractFee = contractFee;
     }
 
-    public String getTotalPaymentAmount() {
+    public BigDecimal getTotalPaymentAmount() {
         return totalPaymentAmount;
     }
 
-    public void setTotalPaymentAmount(String totalPaymentAmount) {
+    public void setTotalPaymentAmount(BigDecimal totalPaymentAmount) {
         this.totalPaymentAmount = totalPaymentAmount;
     }
 }

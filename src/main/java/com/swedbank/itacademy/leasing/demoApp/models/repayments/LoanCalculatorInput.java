@@ -1,15 +1,25 @@
 package com.swedbank.itacademy.leasing.demoApp.models.repayments;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class LoanCalculatorInput {
+
+    @NotNull
     private String customerType;
+    @NotNull
     private BigDecimal assetPrice;
+    @NotNull
     private BigDecimal advancePaymentPercentage;
+    @NotNull
     private String advancePaymentAmount;
+    @NotNull
     private BigDecimal leasePeriodInMonths;
+    @NotNull
     private BigDecimal margin;
+    @NotNull
     private String contractFee;
+    @NotNull
     private BigDecimal paymentDate;
 
     public String getCustomerType() {

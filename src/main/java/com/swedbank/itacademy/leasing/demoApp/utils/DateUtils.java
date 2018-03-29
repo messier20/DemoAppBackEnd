@@ -1,6 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.utils;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
@@ -10,42 +11,46 @@ public class DateUtils {
     }
 
     public static String dateToString(Date date) {
-        //date to string in format: yyyy-mm-dd
-        return "";
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String yyyy = "" + cal.get(Calendar.YEAR);
+        String mm, dd;
+        if ((cal.get(Calendar.MONTH) + 1) < 10) {
+            mm = "0" + (cal.get(Calendar.MONTH) + 1);
+        } else {
+            mm = "" + (cal.get(Calendar.MONTH) + 1);
+        }
+        if (cal.get(Calendar.DAY_OF_MONTH) < 10) {
+            dd = "0" + (cal.get(Calendar.DAY_OF_MONTH));
+        } else {
+            dd = "" + (cal.get(Calendar.DAY_OF_MONTH));
+        }
+
+        return yyyy + "-" + mm + "-" + dd;
     }
 
-
-    public static Date setPaymentDay(Date date, BigDecimal paymentDate) {
-        if (paymentDate == = 15) {
-            date.setDate(paymentDate);
-            return date;
-        } else if (date.getMonth() != 1) {
-            date.setDate(paymentDate);
-            return date;
-        } else if (date.getFullYear() % 4 == 0) {
-            date.setDate(29);
-            return date;
+    public static Date changeDayOfMonth(Date date, BigDecimal paymentDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        if (paymentDate.equals(new BigDecimal("15"))) {
+            cal.set(Calendar.DAY_OF_MONTH, paymentDate.intValue());
+            return cal.getTime();
+        } else if (cal.get(Calendar.MONTH) != Calendar.FEBRUARY) {
+            cal.set(Calendar.DAY_OF_MONTH, paymentDate.intValue());
+            return cal.getTime();
+        } else if (cal.get(Calendar.YEAR) % 4 == 0) {
+            cal.set(Calendar.DAY_OF_MONTH, 29);
+            return cal.getTime();
         } else {
-            date.setDate(28);
-            return date;
+            cal.set(Calendar.DAY_OF_MONTH, 28);
+            return cal.getTime();
         }
     }
 
-    public static Date calcFirstPaymentDate(BigDecimal paymentDate) {
-        Date date = getCurrentDate();
-        date = addMonthToPaymentDate(date);
-        date = setPaymentDay(date, paymentDate);
-        return date;
-    }
-
-    public static Date calcNextPaymentDate(Date date, BigDecimal paymentDate) {
-        date = addMonthToPaymentDate(date);
-        date = setPaymentDay(date, paymentDate);
-        return date;
-    }
-
-    public static Date addMonthToPaymentDate(Date date) {
-        date.setMonth(date.getMonth() + 1);
-        return date;
+    public static Date addMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, 1);
+        return cal.getTime();
     }
 }

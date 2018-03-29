@@ -21,7 +21,7 @@ public class RepaymentScheduleController {
     }
 
     @RequestMapping(value = "/user/calculator/loan/vehicle", method = RequestMethod.POST)
-    public RepaymentSchedule addBusinessCustomerLeasing(@Valid @RequestBody LoanCalculatorInput loanCalculatorInput) {
+    public RepaymentSchedule getRepaymentSchedule(@Valid @RequestBody LoanCalculatorInput loanCalculatorInput) {
         return repaymentScheduleService.calculateRepaymentSchedule(loanCalculatorInput);
     }
 
