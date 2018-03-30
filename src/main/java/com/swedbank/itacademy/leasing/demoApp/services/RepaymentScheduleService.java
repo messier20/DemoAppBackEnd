@@ -20,12 +20,17 @@ public class RepaymentScheduleService {
 
     public RepaymentSchedule calculateRepaymentSchedule(@Valid LoanCalculatorInput loanCalculatorInput) {
 
-        return calculateRepayments(loanCalculatorInput);
+        return fillRepaymentSchedule(loanCalculatorInput);
     }
 
-    private RepaymentSchedule calculateRepayments(LoanCalculatorInput loanCalculatorInput) {
+    private RepaymentSchedule fillRepaymentSchedule(LoanCalculatorInput loanCalculatorInput) {
 
         RepaymentSchedule repaymentSchedule = new RepaymentSchedule();
+        repaymentSchedule.setRepaymentSchedule(calculateRepayments(loanCalculatorInput));
+        return repaymentSchedule;
+    }
+
+    private List<Repayment> calculateRepayments(LoanCalculatorInput loanCalculatorInput) {
         List<Repayment> repayments = new ArrayList<>();
         Repayment previousRepayment;
         Repayment currentRepayment;
@@ -43,8 +48,7 @@ public class RepaymentScheduleService {
             repayments.add(currentRepayment);
         }
 
-        repaymentSchedule.setRepaymentSchedule(repayments);
-        return repaymentSchedule;
+        return repayments;
     }
 
     private BigDecimal calculateMonthlyPayment(LoanCalculatorInput loanCalculatorInput, BigDecimal preciseInterest) {
@@ -56,17 +60,15 @@ public class RepaymentScheduleService {
         );
     }
 
-
     private Repayment calculateFirstRepayment(LoanCalculatorInput loanCalculatorInput) {
         Repayment repayment = new Repayment();
 
-        repayment.setRepaymentDate(DateUtils.dateToString(this.calcNextPaymentDate(loanCalculatorInput.getPaymentDate())));
+        repayment.setRepaymentDate(DateUtils.dateToString(calcNextPaymentDate(loanCalculatorInput.getPaymentDate())));
         repayment.setRemainingAmountToRepay(loanCalculatorInput.getAssetPrice());
         repayment.setAssetValuePaymentAmount(new BigDecimal(loanCalculatorInput.getAdvancePaymentAmount()));
         repayment.setInterestPaymentAmount(BigDecimal.ZERO);
         repayment.setContractFee(new BigDecimal(loanCalculatorInput.getContractFee()));
-        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment.getAssetValuePaymentAmount(),
-                repayment.getInterestPaymentAmount(), repayment.getContractFee()));
+        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment));
 
         return repayment;
     }
@@ -74,7 +76,7 @@ public class RepaymentScheduleService {
     private Repayment calculateNextRepayment(Repayment previousRepayment, BigDecimal paymentDate, BigDecimal leaseInterest, BigDecimal monthlyPayment) {
         Repayment repayment = new Repayment();
 
-        repayment.setRepaymentDate(DateUtils.dateToString(this.calcNextPaymentDate(previousRepayment.getRepaymentDate(), paymentDate)));
+        repayment.setRepaymentDate(DateUtils.dateToString(calcNextPaymentDate(previousRepayment.getRepaymentDate(), paymentDate)));
         repayment.setRemainingAmountToRepay(LoanUtils.calculateRemainingAmountToRepay(previousRepayment.getRemainingAmountToRepay(),
                 previousRepayment.getAssetValuePaymentAmount()));
         repayment.setInterestPaymentAmount(LoanUtils.calculateInterestAmount(repayment.getRemainingAmountToRepay(), leaseInterest));
@@ -87,8 +89,7 @@ public class RepaymentScheduleService {
         }
 
         repayment.setContractFee(BigDecimal.ZERO);
-        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment.getAssetValuePaymentAmount(),
-                repayment.getInterestPaymentAmount(), repayment.getContractFee()));
+        repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment));
 
         return repayment;
     }

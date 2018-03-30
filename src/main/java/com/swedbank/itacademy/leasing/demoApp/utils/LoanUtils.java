@@ -1,16 +1,16 @@
 package com.swedbank.itacademy.leasing.demoApp.utils;
 
+import com.swedbank.itacademy.leasing.demoApp.constants.RepaymentRounding;
+import com.swedbank.itacademy.leasing.demoApp.models.repayments.Repayment;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class LoanUtils {
+public class LoanUtils implements RepaymentRounding{
 
-    private static final int DECIMALS = 4;
-    private static final int INTEREST_DECIMALS = 10;
-    private static final int DIVISION_SCALE = 20;
 
-    public static BigDecimal calculateTotalPaymentAmount(BigDecimal assetValuePaymentAmount, BigDecimal interestPaymentAmount, BigDecimal contractFee) {
-        return assetValuePaymentAmount.add(interestPaymentAmount.add(contractFee));
+    public static BigDecimal calculateTotalPaymentAmount(Repayment repayment) {
+        return repayment.getAssetValuePaymentAmount().add(repayment.getInterestPaymentAmount().add(repayment.getContractFee()));
     }
 
     public static BigDecimal calculateMonthlyAnnuityPayment(BigDecimal leasePresentValue, BigDecimal leaseFutureValue, BigDecimal leaseInterest, BigDecimal leasePeriods) {
