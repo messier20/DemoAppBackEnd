@@ -1,12 +1,18 @@
 package com.swedbank.itacademy.leasing.demoApp.models.businesscustomer;
 
-import com.swedbank.itacademy.leasing.demoApp.models.CustomerType;
+import javax.validation.constraints.*;
 
 public class BusinessCustomer {
+    @NotNull
     private String name;
-    private Long code;
+    @NotNull
+    private String code;
+    @Email @NotNull
     private String email;
-    private Long phoneNumber;
+    @NotNull
+    @Pattern(regexp="(\\+\\d{10,15})")
+    private String phoneNumber;
+    @NotNull
     private String address;
 
     public String getName() {
@@ -17,11 +23,11 @@ public class BusinessCustomer {
         this.name = name;
     }
 
-    public Long getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -33,11 +39,11 @@ public class BusinessCustomer {
         this.email = email;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
