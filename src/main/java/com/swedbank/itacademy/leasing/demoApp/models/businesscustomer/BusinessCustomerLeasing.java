@@ -41,7 +41,7 @@ public class BusinessCustomerLeasing implements Comparable<BusinessCustomerLeasi
         this.status = status;
     }
 
-    public CustomerLeasing getCustomerLeasing() {
+    public CustomerLeasing getCustomer() {
         return customerLeasing;
     }
 

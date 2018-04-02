@@ -1,5 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.models;
 
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
+
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,6 +33,23 @@ public class CustomerLeasing {
     private String contractFee;
     @NotNull
     private Integer paymentDate;
+
+    public CustomerLeasing() {}
+
+    public CustomerLeasing(Private customer) {
+        this.customerType = customer.getCustomerType();
+        this.assetType = customer.getAssetType();
+        this.carBrand = customer.getCarBrand();
+        this.carModel = customer.getCarModel();
+        this.manufacturedDate = customer.getManufacturedDate();
+        this.enginePower = customer.getEnginePower();
+        this.assetPrice = customer.getAssetPrice();
+        this.advancePaymentAmount = customer.getAdvancePaymentAmount();
+        this.leasePeriodInMonths = customer.getLeasePeriodInMonths();
+        this.margin = customer.getMargin();
+        this.contractFee = customer.getContractFee();
+        this.paymentDate = customer.getPaymentDate();
+    }
 
     public CustomerType getCustomerType() {
         return customerType;
