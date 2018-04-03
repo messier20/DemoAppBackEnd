@@ -1,7 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.repositories.models;
 
-import com.swedbank.itacademy.leasing.demoApp.models.Leasing;
-import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomer;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
 
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +21,9 @@ public class Private extends Customer {
         this.firstName = customerLeasing.getCustomer().getName();
         this.lastName = customerLeasing.getCustomer().getLastName();
         this.personalCode = customerLeasing.getCustomer().getCode();
+        this.setEmail(customerLeasing.getCustomer().getEmail());
+        this.setPhoneNumber(customerLeasing.getCustomer().getPhoneNumber());
+        this.setAddress(customerLeasing.getCustomer().getAddress());
     }
 
     public String getFirstName() {

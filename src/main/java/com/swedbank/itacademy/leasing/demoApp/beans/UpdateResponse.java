@@ -1,7 +1,6 @@
 package com.swedbank.itacademy.leasing.demoApp.beans;
 
-import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import org.bson.types.ObjectId;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.ApplicationStatus;
 
 public class UpdateResponse extends ObjectIdContainer {
     private ApplicationStatus status;

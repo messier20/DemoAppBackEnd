@@ -1,11 +1,8 @@
 package com.swedbank.itacademy.leasing.demoApp.repositories.models;
 
-import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import com.swedbank.itacademy.leasing.demoApp.models.CustomerLeasing;
-import com.swedbank.itacademy.leasing.demoApp.models.CustomerType;
-import com.swedbank.itacademy.leasing.demoApp.models.Leasing;
-import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomer;
-import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.ApplicationStatus;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.CustomerType;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
@@ -13,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Customer implements Comparable<Customer> {
+public class Customer<T> implements Comparable<Customer<T>> {
     @Id
     private ObjectId id;
     @NotNull
@@ -59,7 +56,19 @@ public class Customer implements Comparable<Customer> {
 
     public Customer() {}
 
-    public Customer(Leasing<PrivateCustomer> customerLeasing) {
+    public Customer(Leasing<T> customerLeasing) {
+        if (customerLeasing.getCustomer() instanceof Private) {
+            Private p = (Private) customerLeasing.getCustomer();
+            this.email = p.getEmail();
+            this.phoneNumber = p.getPhoneNumber();
+            this.address = p.getAddress();
+        }
+        else if (customerLeasing.getCustomer() instanceof Business) {
+            Business b = (Business) customerLeasing.getCustomer();
+            this.email = b.getEmail();
+            this.phoneNumber = b.getPhoneNumber();
+            this.address = b.getAddress();
+        }
         this.id = new ObjectId();
         this.customerType = customerLeasing.getLeasing().getCustomerType();
         this.assetType = customerLeasing.getLeasing().getAssetType();
@@ -74,9 +83,6 @@ public class Customer implements Comparable<Customer> {
         this.margin = customerLeasing.getLeasing().getMargin();
         this.leasePeriodInMonths = customerLeasing.getLeasing().getLeasePeriodInMonths();
         this.paymentDate = customerLeasing.getLeasing().getPaymentDate();
-        this.email = customerLeasing.getCustomer().getEmail();
-        this.phoneNumber = customerLeasing.getCustomer().getPhoneNumber();
-        this.address = customerLeasing.getCustomer().getAddress();
         this.status = ApplicationStatus.PENDING;
         this.idHex = id.toString();
     }
@@ -234,7 +240,7 @@ public class Customer implements Comparable<Customer> {
     }
 
     @Override
-    public int compareTo(Customer o) {
-        return o.getId().getTimestamp() - this.getId().getTimestamp();
+    public int compareTo(Customer<T> o) {
+        return this.getId().getTimestamp() - o.getId().getTimestamp();
     }
 }

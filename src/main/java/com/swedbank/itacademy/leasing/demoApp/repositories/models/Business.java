@@ -1,7 +1,7 @@
 package com.swedbank.itacademy.leasing.demoApp.repositories.models;
 
-import com.swedbank.itacademy.leasing.demoApp.models.Leasing;
-import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomer;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,11 +11,15 @@ public class Business extends Customer {
     @NotNull
     private String companyCode;
 
-    public Business(Leasing<BusinessCustomer> customer) {}
+    public Business() {}
 
-    public Business(@NotNull String companyName, @NotNull String companyCode) {
-        this.companyName = companyName;
-        this.companyCode = companyCode;
+    public Business(Leasing<BusinessCustomer> customerLeasing) {
+        super(customerLeasing);
+        this.companyName = customerLeasing.getCustomer().getName();
+        this.companyCode = customerLeasing.getCustomer().getCode();
+        this.setEmail(customerLeasing.getCustomer().getEmail());
+        this.setPhoneNumber(customerLeasing.getCustomer().getPhoneNumber());
+        this.setAddress(customerLeasing.getCustomer().getAddress());
     }
 
     public String getCompanyName() {

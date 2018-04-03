@@ -1,4 +1,4 @@
-package com.swedbank.itacademy.leasing.demoApp.models.businesscustomer;
+package com.swedbank.itacademy.leasing.demoApp.models.customer;
 
 import javax.validation.constraints.*;
 
