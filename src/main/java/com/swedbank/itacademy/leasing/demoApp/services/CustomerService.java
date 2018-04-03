@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,18 +91,20 @@ public class CustomerService {
         businessCustomerRepository.save(b);
         return new UpdateResponse(b.getId().toString(), b.getStatus());
     }
+
+    // private + business
+    public List<CustomerResponse> getAllCustomers() {
+        List<CustomerResponse> responses = new ArrayList<>();
+        for (Private p : privatePrivateCustomerRepository.findAll()) {
+            responses.add(new CustomerResponse<Private>(p));
+        }
+        for (Business b : businessCustomerRepository.findAll()) {
+            responses.add(new CustomerResponse<Business>(b));
+        }
+        Collections.sort(responses);
+        return responses;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

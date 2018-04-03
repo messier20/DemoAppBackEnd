@@ -9,7 +9,7 @@ import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
 import org.bson.types.ObjectId;
 
-public class CustomerResponse<T> extends Leasing<T> {
+public class CustomerResponse<T> extends Leasing<T> implements Comparable<CustomerResponse> {
     private ObjectId id;
     private String idHex;
     private ApplicationStatus status;
@@ -58,5 +58,10 @@ public class CustomerResponse<T> extends Leasing<T> {
 
     public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public int compareTo(CustomerResponse o) {
+        return this.getId().getTimestamp() - o.getId().getTimestamp();
     }
 }
