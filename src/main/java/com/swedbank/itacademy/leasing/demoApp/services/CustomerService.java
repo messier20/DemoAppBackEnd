@@ -1,93 +1,112 @@
 package com.swedbank.itacademy.leasing.demoApp.services;
 
+import com.swedbank.itacademy.leasing.demoApp.beans.CustomerResponse;
 import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
 import com.swedbank.itacademy.leasing.demoApp.beans.UpdateResponse;
-import com.swedbank.itacademy.leasing.demoApp.models.ApplicationStatus;
-import com.swedbank.itacademy.leasing.demoApp.models.businesscustomer.BusinessCustomerLeasing;
-import com.swedbank.itacademy.leasing.demoApp.models.privatecustomer.PrivateCustomerLeasing;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.ApplicationStatus;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.PrivateCustomerRepository;
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
+import com.swedbank.itacademy.leasing.demoApp.utils.CustomerUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class CustomerService {
-    private final PrivateCustomerRepository privateCustomerRepository;
-    private final BusinessCustomerRepository businessCustomerRepository;
+    private final PrivateCustomerRepository privatePrivateCustomerRepository;
+    private BusinessCustomerRepository businessCustomerRepository;
 
     @Autowired
-    public CustomerService(PrivateCustomerRepository privateCustomerRepository,
+    public CustomerService(PrivateCustomerRepository privatePrivateCustomerRepository,
                            BusinessCustomerRepository businessCustomerRepository) {
-        this.privateCustomerRepository = privateCustomerRepository;
+        this.privatePrivateCustomerRepository = privatePrivateCustomerRepository;
         this.businessCustomerRepository = businessCustomerRepository;
     }
 
-    public List<PrivateCustomerLeasing> getAllPrivateCustomerLeasing() {
-        List<PrivateCustomerLeasing> privateCustomerLeasings = privateCustomerRepository.findAll();
-        Collections.sort(privateCustomerLeasings);
-        return privateCustomerLeasings;
+    // private
+    public List<CustomerResponse<Private>> getAllPrivateCustomerLeasing() {
+        List<Private> p = privatePrivateCustomerRepository.findAll();
+        Collections.sort(p);
+        return CustomerUtils.privatesToResponse(p);
     }
 
-    public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasing() {
-        List<BusinessCustomerLeasing> businessCustomerLeasings = businessCustomerRepository.findAll();
-        Collections.sort(businessCustomerLeasings);
-        return businessCustomerLeasings;
+    public CustomerResponse<Private> getPrivateCustomerLeasingById(ObjectId id) {
+        Private p = privatePrivateCustomerRepository.findById(id);
+        return new CustomerResponse<Private>(p);
     }
 
-    public List<PrivateCustomerLeasing> getAllPrivateCustomerLeasingByStatus(ApplicationStatus status) {
-        return privateCustomerRepository.findAllByStatus(status);
+    public List<CustomerResponse<Private>> getAllPrivateCustomerLeasingByStatus(ApplicationStatus status) {
+        List<Private> p = privatePrivateCustomerRepository.findAllByStatus(status);
+        return CustomerUtils.privatesToResponse(p);
     }
 
-    public List<BusinessCustomerLeasing> getAllBusinessCustomerLeasingByStatus(ApplicationStatus status) {
-        return businessCustomerRepository.findAllByStatus(status);
+    public ObjectIdContainer addPrivateCustomer(Leasing<PrivateCustomer> customer) {
+        Private dbObject = new Private(customer);
+        privatePrivateCustomerRepository.save(dbObject);
+        return CustomerUtils.addIdToContainer(dbObject.getId());
     }
 
-    public ObjectIdContainer addPrivateCustomerLeasing(@Valid PrivateCustomerLeasing privateCustomerLeasing) {
-        privateCustomerLeasing.setId(new ObjectId());
-        privateCustomerLeasing.setIdHex(privateCustomerLeasing.getId().toString());
-        privateCustomerRepository.save(privateCustomerLeasing);
-
-        return addIdToContainer(privateCustomerLeasing.getId());
+    public UpdateResponse updatePrivateCustomer(ObjectId id, CustomerResponse<Private> customer) {
+        Private p = privatePrivateCustomerRepository.findById(id);
+        p.setStatus(customer.getStatus());
+        privatePrivateCustomerRepository.save(p);
+        return new UpdateResponse(p.getId().toString(), p.getStatus());
     }
 
-    public ObjectIdContainer addBusinessCustomerLeasing(@Valid BusinessCustomerLeasing businessCustomerLeasing) {
-        businessCustomerLeasing.setId(new ObjectId());
-        businessCustomerLeasing.setIdHex(businessCustomerLeasing.getId().toString());
-        businessCustomerRepository.save(businessCustomerLeasing);
-
-        return addIdToContainer(businessCustomerLeasing.getId());
+    // business
+    public List<CustomerResponse<Business>> getAllBusinessCustomerLeasing() {
+        List<Business> b = businessCustomerRepository.findAll();
+        Collections.sort(b);
+        return CustomerUtils.businessToResponse(b);
     }
 
-    public PrivateCustomerLeasing getPrivateCustomerLeasingById(ObjectId id) {
-        return privateCustomerRepository.findById(id);
+    public CustomerResponse<Business> getBusinessCustomerLeasingById(ObjectId id) {
+        Business b = businessCustomerRepository.findById(id);
+        return new CustomerResponse<Business>(b);
     }
 
-    public BusinessCustomerLeasing getBusinessCustomerLeasingById(ObjectId id) {
-        return businessCustomerRepository.findById(id);
+    public List<CustomerResponse<Business>> getAllBusinessCustomerLeasingByStatus(ApplicationStatus status) {
+        List<Business> b = businessCustomerRepository.findAllByStatus(status);
+        return CustomerUtils.businessToResponse(b);
     }
 
-    private ObjectIdContainer addIdToContainer(ObjectId id) {
-        ObjectIdContainer idContainer = new ObjectIdContainer();
-        idContainer.setId(id.toString());
-        return idContainer;
+    public ObjectIdContainer addBusinessCustomer(Leasing<BusinessCustomer> customer) {
+        Business dbObject = new Business(customer);
+        businessCustomerRepository.save(dbObject);
+        return CustomerUtils.addIdToContainer(dbObject.getId());
     }
 
-    public UpdateResponse updatePrivateCustomer(ObjectId id, @Valid PrivateCustomerLeasing customer) {
-        PrivateCustomerLeasing leasing = privateCustomerRepository.findById(id);
-        leasing.setStatus(customer.getStatus());
-        privateCustomerRepository.save(leasing);
-        return new UpdateResponse(leasing.getId().toString(), leasing.getStatus());
+    public UpdateResponse updateBusinessCustomer(ObjectId id, CustomerResponse<Business> customer) {
+        Business b = businessCustomerRepository.findById(id);
+        b.setStatus(customer.getStatus());
+        businessCustomerRepository.save(b);
+        return new UpdateResponse(b.getId().toString(), b.getStatus());
     }
 
-    public UpdateResponse updateBusinessCustomer(ObjectId id, @Valid BusinessCustomerLeasing customer) {
-        BusinessCustomerLeasing leasing = businessCustomerRepository.findById(id);
-        leasing.setStatus(customer.getStatus());
-        businessCustomerRepository.save(leasing);
-        return new UpdateResponse(leasing.getId().toString(), leasing.getStatus());
+    // private + business
+    public List<CustomerResponse> getAllCustomers() {
+        List<CustomerResponse> responses = new ArrayList<>();
+        for (Private p : privatePrivateCustomerRepository.findAll()) {
+            responses.add(new CustomerResponse<Private>(p));
+        }
+        for (Business b : businessCustomerRepository.findAll()) {
+            responses.add(new CustomerResponse<Business>(b));
+        }
+        Collections.sort(responses);
+        return responses;
     }
 }
+
+
+
+
+

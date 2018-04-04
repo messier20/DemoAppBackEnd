@@ -1,4 +1,7 @@
-package com.swedbank.itacademy.leasing.demoApp.models;
+package com.swedbank.itacademy.leasing.demoApp.models.customer;
+
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -31,6 +34,40 @@ public class CustomerLeasing {
     private String contractFee;
     @NotNull
     private Integer paymentDate;
+
+    public CustomerLeasing() {}
+
+    public CustomerLeasing(Private customer) {
+        this.customerType = customer.getCustomerType();
+        this.assetType = customer.getAssetType();
+        this.carBrand = customer.getCarBrand();
+        this.carModel = customer.getCarModel();
+        this.manufacturedDate = customer.getManufacturedDate();
+        this.enginePower = customer.getEnginePower();
+        this.assetPrice = customer.getAssetPrice();
+        this.advancePaymentPercentage = customer.getAdvancePaymentPercentage();
+        this.advancePaymentAmount = customer.getAdvancePaymentAmount();
+        this.leasePeriodInMonths = customer.getLeasePeriodInMonths();
+        this.margin = customer.getMargin();
+        this.contractFee = customer.getContractFee();
+        this.paymentDate = customer.getPaymentDate();
+    }
+
+    public CustomerLeasing(Business customer) {
+        this.customerType = customer.getCustomerType();
+        this.assetType = customer.getAssetType();
+        this.carBrand = customer.getCarBrand();
+        this.carModel = customer.getCarModel();
+        this.manufacturedDate = customer.getManufacturedDate();
+        this.enginePower = customer.getEnginePower();
+        this.assetPrice = customer.getAssetPrice();
+        this.advancePaymentPercentage = customer.getAdvancePaymentPercentage();
+        this.advancePaymentAmount = customer.getAdvancePaymentAmount();
+        this.leasePeriodInMonths = customer.getLeasePeriodInMonths();
+        this.margin = customer.getMargin();
+        this.contractFee = customer.getContractFee();
+        this.paymentDate = customer.getPaymentDate();
+    }
 
     public CustomerType getCustomerType() {
         return customerType;
