@@ -5,14 +5,17 @@ import com.swedbank.itacademy.leasing.demoApp.models.customer.CustomerLeasing;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
+import com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer.LoginModel;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
 import org.bson.types.ObjectId;
+import sun.rmi.runtime.Log;
 
 public class CustomerResponse<T> extends Leasing<T> implements Comparable<CustomerResponse> {
     private ObjectId id;
     private String idHex;
     private ApplicationStatus status;
+    private LoginModel loginModel;
 
     public CustomerResponse() {}
 
@@ -58,6 +61,14 @@ public class CustomerResponse<T> extends Leasing<T> implements Comparable<Custom
 
     public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    public LoginModel getLoginModel() {
+        return loginModel;
+    }
+
+    public void setLoginModel(LoginModel loginModel) {
+        this.loginModel = loginModel;
     }
 
     @Override

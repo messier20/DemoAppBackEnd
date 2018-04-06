@@ -7,9 +7,12 @@ import com.swedbank.itacademy.leasing.demoApp.models.customer.ApplicationStatus;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
+import com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer.LoginModel;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
+import com.swedbank.itacademy.leasing.demoApp.repositories.OfficerLoginRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.PrivateCustomerRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
+import com.swedbank.itacademy.leasing.demoApp.repositories.models.Officer;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
 import com.swedbank.itacademy.leasing.demoApp.utils.CustomerUtils;
 import org.bson.types.ObjectId;
@@ -24,12 +27,16 @@ import java.util.List;
 public class CustomerService {
     private final PrivateCustomerRepository privatePrivateCustomerRepository;
     private BusinessCustomerRepository businessCustomerRepository;
+    private OfficerLoginRepository officerLoginRepository;
 
     @Autowired
     public CustomerService(PrivateCustomerRepository privatePrivateCustomerRepository,
-                           BusinessCustomerRepository businessCustomerRepository) {
+                           BusinessCustomerRepository businessCustomerRepository,
+                           OfficerLoginRepository officerLoginRepository) {
+
         this.privatePrivateCustomerRepository = privatePrivateCustomerRepository;
         this.businessCustomerRepository = businessCustomerRepository;
+        this.officerLoginRepository = officerLoginRepository;
     }
 
     // private
@@ -93,16 +100,27 @@ public class CustomerService {
     }
 
     // private + business
-    public List<CustomerResponse> getAllCustomers() {
-        List<CustomerResponse> responses = new ArrayList<>();
-        for (Private p : privatePrivateCustomerRepository.findAll()) {
-            responses.add(new CustomerResponse<Private>(p));
+    public List<CustomerResponse> getAllCustomers(LoginModel authenticationData) {
+
+        if(isAuthorizedOfficer(authenticationData)) {
+            List<CustomerResponse> responses = new ArrayList<>();
+            for (Private p : privatePrivateCustomerRepository.findAll()) {
+                responses.add(new CustomerResponse<Private>(p));
+            }
+            for (Business b : businessCustomerRepository.findAll()) {
+                responses.add(new CustomerResponse<Business>(b));
+            }
+            Collections.sort(responses);
+            return responses;
+
+        } else {
+            return new ArrayList<CustomerResponse>();
         }
-        for (Business b : businessCustomerRepository.findAll()) {
-            responses.add(new CustomerResponse<Business>(b));
-        }
-        Collections.sort(responses);
-        return responses;
+    }
+
+    private boolean isAuthorizedOfficer(LoginModel authenticationData) {
+        Officer authenticatedUser = officerLoginRepository.findByEmail(authenticationData.getEmail());
+        return (authenticatedUser.getPassword().equals(authenticationData.getPassword()));
     }
 }
 

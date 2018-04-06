@@ -17,14 +17,13 @@ public class OfficerLoginService {
         this.officerLoginRepository = officerLoginRepository;
     }
 
-    public LoginResponse checkUserAuthenticity(LoginModel loggingInUser) {
-        Officer authenticatedUser = officerLoginRepository.findByEmail(loggingInUser.getEmail());
+    private boolean isAuthorizedOfficer(LoginModel authenticationData) {
+        Officer authenticatedUser = officerLoginRepository.findByEmail(authenticationData.getEmail());
+        return (authenticatedUser.getPassword().equals(authenticationData.getPassword()));
+    }
 
-        if(authenticatedUser.getPassword().equals(loggingInUser.getPassword())) {
-            return new LoginResponse(true);
-        } else {
-            return new LoginResponse(false);
-        }
+    public LoginResponse checkUserAuthenticity(LoginModel loggingInUser) {
+        return new LoginResponse(isAuthorizedOfficer(loggingInUser));
     }
 
     public void addAuthenticatedUser(LoginModel userToAdd) {
