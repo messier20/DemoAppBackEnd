@@ -7,7 +7,6 @@ public class Repayment {
     private BigDecimal remainingAmountToRepay;
     private BigDecimal assetValuePaymentAmount;
     private BigDecimal interestPaymentAmount;
-    private BigDecimal contractFee;
     private BigDecimal totalPaymentAmount;
 
     public String getRepaymentDate() {
@@ -40,14 +39,6 @@ public class Repayment {
 
     public void setInterestPaymentAmount(BigDecimal interestPaymentAmount) {
         this.interestPaymentAmount = interestPaymentAmount;
-    }
-
-    public BigDecimal getContractFee() {
-        return contractFee;
-    }
-
-    public void setContractFee(BigDecimal contractFee) {
-        this.contractFee = contractFee;
     }
 
     public BigDecimal getTotalPaymentAmount() {

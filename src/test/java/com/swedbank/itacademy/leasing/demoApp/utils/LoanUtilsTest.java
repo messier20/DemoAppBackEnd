@@ -25,21 +25,18 @@ public class LoanUtilsTest implements RepaymentRounding{
         Repayment repayment = new Repayment();
         repayment.setAssetValuePaymentAmount(new BigDecimal("1000"));
         repayment.setInterestPaymentAmount(new BigDecimal("100"));
-        repayment.setContractFee(new BigDecimal("200"));
         assertEquals(LoanUtils.calculateTotalPaymentAmount(repayment),
                 new BigDecimal("1300"));
 
         repayment = new Repayment();
         repayment.setAssetValuePaymentAmount(new BigDecimal("15000"));
         repayment.setInterestPaymentAmount(BigDecimal.ZERO);
-        repayment.setContractFee(new BigDecimal("200"));
         assertEquals(LoanUtils.calculateTotalPaymentAmount(repayment),
                 new BigDecimal("15200"));
 
         repayment = new Repayment();
         repayment.setAssetValuePaymentAmount(new BigDecimal("11000"));
         repayment.setInterestPaymentAmount(new BigDecimal("1000"));
-        repayment.setContractFee(new BigDecimal("0"));
         assertEquals(LoanUtils.calculateTotalPaymentAmount(repayment),
                 new BigDecimal("12000"));
     }

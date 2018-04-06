@@ -10,7 +10,7 @@ public class LoanUtils implements RepaymentRounding{
 
 
     public static BigDecimal calculateTotalPaymentAmount(Repayment repayment) {
-        return repayment.getAssetValuePaymentAmount().add(repayment.getInterestPaymentAmount().add(repayment.getContractFee()));
+        return repayment.getAssetValuePaymentAmount().add(repayment.getInterestPaymentAmount());
     }
 
     public static BigDecimal calculateMonthlyAnnuityPayment(BigDecimal leasePresentValue, BigDecimal leaseFutureValue, BigDecimal leaseInterest, BigDecimal leasePeriods) {
