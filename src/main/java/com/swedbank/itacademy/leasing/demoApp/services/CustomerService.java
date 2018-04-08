@@ -42,7 +42,7 @@ public class CustomerService {
         List<Private> p = privatePrivateCustomerRepository.findAll();
         Collections.sort(p);
 
-        //boolean b = CustomerUtils.isCustomerValid(p.get(0));
+        boolean b = CustomerUtils.isCustomerValid(p.get(0));
         return CustomerUtils.privatesToResponse(p);
     }
 
@@ -59,14 +59,16 @@ public class CustomerService {
     public ObjectIdContainer addPrivateCustomer(Leasing<PrivateCustomer> customer) throws IOException, MessagingException {
         Private dbObject = new Private(customer);
         privatePrivateCustomerRepository.save(dbObject);
+        if (CustomerUtils.isCustomerValid(dbObject)) {
+            String msg = "<p>Hi <b>" + dbObject.getFirstName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
+                    dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
+                    "check application status.</a></p><p>Blue Leasing</p>";
 
-        String msg = "<p>Hi <b>" + dbObject.getFirstName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
-                dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
-                "check application status.</a></p><p>Blue Leasing</p>";
+            emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
 
-        emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "", msg));
-
-        return CustomerUtils.addIdToContainer(dbObject.getId());
+            return CustomerUtils.addIdToContainer(dbObject.getId());
+        }
+        return new ObjectIdContainer();
     }
 
     public UpdateResponse updatePrivateCustomer(ObjectId id, CustomerResponse<Private> customer) throws IOException, MessagingException {
@@ -99,14 +101,16 @@ public class CustomerService {
     public ObjectIdContainer addBusinessCustomer(Leasing<BusinessCustomer> customer) throws IOException, MessagingException {
         Business dbObject = new Business(customer);
         businessCustomerRepository.save(dbObject);
+        if (CustomerUtils.isCustomerValid(dbObject)) {
+            String msg = "<p>Hi <b>" + dbObject.getCompanyName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
+                    dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
+                    "check application status.</a></p><p>Blue Leasing</p>";
 
-        String msg = "<p>Hi <b>" + dbObject.getCompanyName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
-                dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
-                "check application status.</a></p><p>Blue Leasing</p>";
+            emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
 
-        emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
-
-        return CustomerUtils.addIdToContainer(dbObject.getId());
+            return CustomerUtils.addIdToContainer(dbObject.getId());
+        }
+        return new ObjectIdContainer();
     }
 
     public UpdateResponse updateBusinessCustomer(ObjectId id, CustomerResponse<Business> customer) throws IOException, MessagingException {

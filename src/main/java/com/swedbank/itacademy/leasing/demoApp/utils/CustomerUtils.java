@@ -3,6 +3,7 @@ package com.swedbank.itacademy.leasing.demoApp.utils;
 import com.swedbank.itacademy.leasing.demoApp.beans.CustomerResponse;
 import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
 import com.swedbank.itacademy.leasing.demoApp.constants.CustomerConstants;
+import com.swedbank.itacademy.leasing.demoApp.models.customer.CustomerType;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Business;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Customer;
 import com.swedbank.itacademy.leasing.demoApp.repositories.models.Private;
@@ -43,20 +44,26 @@ public class CustomerUtils implements CustomerConstants {
     public static boolean isCustomerValid(Customer customer) {
         boolean customerInfo = false;
         if (customer instanceof Private) {
-            customerInfo = isNameValid((((Private) customer).getFirstName())) &&
-                    isNameValid(((Private) customer).getLastName()) &&
-                    isPersonalCodeValid(((Private) customer).getPersonalCode());
+            customerInfo = customer.getCustomerType() == CustomerType.PRIVATE &&
+                    isStringValid((((Private) customer).getFirstName())) &&
+                    isStringValid(((Private) customer).getLastName()) &&
+                    isPersonalCodeValid(((Private) customer).getPersonalCode()) &&
+                    isValueInRange(customer.getAssetPrice(), minPrivateAssetPrice, maxAssetPrice);
         }
         if (customer instanceof Business) {
-            //customerInfo = isCustomerValid(Vali)
+            customerInfo = customer.getCustomerType() == CustomerType.BUSINESS &&
+                    isStringValid(((Business) customer).getCompanyName()) &&
+                    isCompanyCodeValid(((Business) customer).getCompanyCode()) &&
+                    isValueInRange(customer.getAssetPrice(), minBusinessAssetPrice, maxAssetPrice);
+
         }
+
         return customerInfo &&
                 isAssetPriceValid(customer.getAssetType()) &&
                 isCarBrandValid(customer.getCarBrand()) &&
                 isCarModeValid(customer.getCarModel()) &&
                 isDateValid(customer.getManufacturedDate()) &&
                 isValueInRange(customer.getEnginePower(), minEnginePower, maxEnginePower) &&
-                isValueInRange(customer.getAssetPrice(), minPrivateAssetPrice, maxAssetPrice) &&
                 isValueInRange(customer.getAdvancePaymentPercentage(), minAdvancePaymentPercentage, maxAdvancePaymentPercentage) &&
                 isAdvancedPaymentAmountValid(customer.getAssetPrice(), customer.getAdvancePaymentPercentage(),
                         new BigDecimal(customer.getAdvancePaymentAmount())) &&
@@ -66,7 +73,7 @@ public class CustomerUtils implements CustomerConstants {
                 isPaymentDayValid(customer.getPaymentDate()) &&
                 isEmailValid(customer.getEmail()) &&
                 isPhoneNumberValid(customer.getPhoneNumber()) &&
-                isNameValid(customer.getAddress());
+                isStringValid(customer.getAddress());
     }
 
     public static boolean isEmailValid(String email) {
@@ -134,7 +141,7 @@ public class CustomerUtils implements CustomerConstants {
         return isValueInRange(period, 6, 84) && period % 6 == 0;
     }
 
-    public static boolean isNameValid(String name) {
+    public static boolean isStringValid(String name) {
         String regex = "\\w{1,65}\\b";
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(name).matches();
