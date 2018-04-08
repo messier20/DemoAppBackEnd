@@ -87,14 +87,12 @@ public class CustomerController {
     @RequestMapping(value = officerLink + "/user/private/update/{id}", method = RequestMethod.PUT)
     public UpdateResponse updatePrivateCustomer(@Valid @RequestBody CustomerResponse<Private> customer,
                                                 @PathVariable("id") ObjectId id) {
-        System.out.println(customer.getLoginModel().getEmail());
         return customerService.updatePrivateCustomer(id, customer);
     }
 
     @RequestMapping(value = officerLink + "/user/business/update/{id}", method = RequestMethod.PUT)
     public UpdateResponse updateBusinessCustomer(@Valid @RequestBody CustomerResponse<Business> customer,
                                                  @PathVariable("id") ObjectId id) {
-        System.out.println(customer.getLoginModel().getEmail());
         return customerService.updateBusinessCustomer(id, customer);
     }
 

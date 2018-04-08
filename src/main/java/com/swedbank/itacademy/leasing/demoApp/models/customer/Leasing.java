@@ -1,6 +1,9 @@
 package com.swedbank.itacademy.leasing.demoApp.models.customer;
 
+import com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer.LoginModel;
+
 public class Leasing<T> {
+    private LoginModel loginModel;
     private CustomerLeasing leasing;
     private T customer;
 
@@ -19,5 +22,13 @@ public class Leasing<T> {
 
     public void setCustomer(T customer) {
         this.customer = customer;
+    }
+
+    public LoginModel getLoginModel() {
+        return loginModel;
+    }
+
+    public void setLoginModel(LoginModel loginModel) {
+        this.loginModel = loginModel;
     }
 }

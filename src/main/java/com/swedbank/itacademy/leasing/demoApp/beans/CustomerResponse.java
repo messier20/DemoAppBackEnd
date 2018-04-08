@@ -15,7 +15,6 @@ public class CustomerResponse<T> extends Leasing<T> implements Comparable<Custom
     private ObjectId id;
     private String idHex;
     private ApplicationStatus status;
-    private LoginModel loginModel;
 
     public CustomerResponse() {}
 
@@ -61,14 +60,6 @@ public class CustomerResponse<T> extends Leasing<T> implements Comparable<Custom
 
     public void setStatus(ApplicationStatus status) {
         this.status = status;
-    }
-
-    public LoginModel getLoginModel() {
-        return loginModel;
-    }
-
-    public void setLoginModel(LoginModel loginModel) {
-        this.loginModel = loginModel;
     }
 
     @Override
