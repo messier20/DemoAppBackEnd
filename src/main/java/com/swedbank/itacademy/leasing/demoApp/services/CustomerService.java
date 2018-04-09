@@ -164,8 +164,12 @@ public class CustomerService {
     }
 
     private boolean isAuthorizedOfficer(LoginModel authenticationData) {
-        Officer authenticatedUser = officerLoginRepository.findByEmail(authenticationData.getEmail());
-        return (authenticatedUser.getPassword().equals(authenticationData.getPassword()));
+        if (authenticationData != null) {
+            Officer authenticatedUser = officerLoginRepository.findByEmail(authenticationData.getEmail());
+            return (authenticatedUser.getPassword().equals(authenticationData.getPassword()));
+        } else {
+            return false;
+        }
     }
 }
 
