@@ -5,7 +5,6 @@ import com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer.LoginModel;
 import javax.validation.constraints.NotNull;
 
 public class Leasing<T> {
-    @NotNull
     private LoginModel loginModel;
     private CustomerLeasing leasing;
     private T customer;

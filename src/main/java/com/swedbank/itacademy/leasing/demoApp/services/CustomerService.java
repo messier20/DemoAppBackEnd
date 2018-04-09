@@ -112,14 +112,14 @@ public class CustomerService {
 
     public ObjectIdContainer addBusinessCustomer(Leasing<BusinessCustomer> customer) throws IOException, MessagingException {
         Business dbObject = new Business(customer);
-        businessCustomerRepository.save(dbObject);
+
         if (CustomerUtils.isCustomerValid(dbObject)) {
+            businessCustomerRepository.save(dbObject);
             String msg = "<p>Hi <b>" + dbObject.getCompanyName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
                     dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
                     "check application status.</a></p><p>Blue Leasing</p>";
 
             emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
-
             return CustomerUtils.addIdToContainer(dbObject.getId());
         }
         return new ObjectIdContainer();
