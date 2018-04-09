@@ -15,8 +15,9 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -40,7 +41,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/user/private", method = RequestMethod.POST)
-    public ObjectIdContainer addPrivateCustomerLeasing(@Valid @RequestBody Leasing<PrivateCustomer> customer) {
+    public ObjectIdContainer addPrivateCustomerLeasing(@Valid @RequestBody Leasing<PrivateCustomer> customer) throws IOException, MessagingException {
         return customerService.addPrivateCustomer(customer);
     }
 
@@ -51,7 +52,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/user/business", method = RequestMethod.POST)
-    public ObjectIdContainer addBusinessCustomerLeasing(@Valid @RequestBody Leasing<BusinessCustomer> customer) {
+    public ObjectIdContainer addBusinessCustomerLeasing(@Valid @RequestBody Leasing<BusinessCustomer> customer) throws IOException, MessagingException {
         return customerService.addBusinessCustomer(customer);
     }
 
@@ -86,13 +87,13 @@ public class CustomerController {
 
     @RequestMapping(value = officerLink + "/user/private/update/{id}", method = RequestMethod.PUT)
     public UpdateResponse updatePrivateCustomer(@Valid @RequestBody CustomerResponse<Private> customer,
-                                                @PathVariable("id") ObjectId id) {
+                                                @PathVariable("id") ObjectId id) throws IOException, MessagingException  {
         return customerService.updatePrivateCustomer(id, customer);
     }
 
     @RequestMapping(value = officerLink + "/user/business/update/{id}", method = RequestMethod.PUT)
     public UpdateResponse updateBusinessCustomer(@Valid @RequestBody CustomerResponse<Business> customer,
-                                                 @PathVariable("id") ObjectId id) {
+                                                 @PathVariable("id") ObjectId id) throws IOException, MessagingException {
         return customerService.updateBusinessCustomer(id, customer);
     }
 

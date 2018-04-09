@@ -17,7 +17,7 @@ public class CustomerLeasing {
     @NotNull
     private String carModel;
     @NotNull
-    private Date manufacturedDate;
+    private String manufacturedDate;
     @NotNull
     private BigDecimal enginePower;
     @NotNull
@@ -101,11 +101,11 @@ public class CustomerLeasing {
         this.carModel = carModel;
     }
 
-    public Date getManufacturedDate() {
+    public String getManufacturedDate() {
         return manufacturedDate;
     }
 
-    public void setManufacturedDate(Date manufacturedDate) {
+    public void setManufacturedDate(String manufacturedDate) {
         this.manufacturedDate = manufacturedDate;
     }
 

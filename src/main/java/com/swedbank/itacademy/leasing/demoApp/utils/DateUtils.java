@@ -1,6 +1,8 @@
 package com.swedbank.itacademy.leasing.demoApp.utils;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,22 +13,8 @@ public class DateUtils {
     }
 
     public static String dateToString(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        String yyyy = "" + cal.get(Calendar.YEAR);
-        String mm, dd;
-        if ((cal.get(Calendar.MONTH) + 1) < 10) {
-            mm = "0" + (cal.get(Calendar.MONTH) + 1);
-        } else {
-            mm = "" + (cal.get(Calendar.MONTH) + 1);
-        }
-        if (cal.get(Calendar.DAY_OF_MONTH) < 10) {
-            dd = "0" + (cal.get(Calendar.DAY_OF_MONTH));
-        } else {
-            dd = "" + (cal.get(Calendar.DAY_OF_MONTH));
-        }
-
-        return yyyy + "-" + mm + "-" + dd;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.format(date);
     }
 
     public static Date changeDayOfMonth(Date date, BigDecimal paymentDate) {

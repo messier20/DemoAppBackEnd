@@ -8,6 +8,7 @@ import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer.LoginModel;
+import com.swedbank.itacademy.leasing.demoApp.models.email.EmailMsg;
 import com.swedbank.itacademy.leasing.demoApp.repositories.BusinessCustomerRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.OfficerLoginRepository;
 import com.swedbank.itacademy.leasing.demoApp.repositories.PrivateCustomerRepository;
@@ -19,6 +20,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,16 +30,19 @@ import java.util.List;
 public class CustomerService {
     private final PrivateCustomerRepository privatePrivateCustomerRepository;
     private BusinessCustomerRepository businessCustomerRepository;
+    private final EmailService emailService;
     private OfficerLoginRepository officerLoginRepository;
 
     @Autowired
     public CustomerService(PrivateCustomerRepository privatePrivateCustomerRepository,
                            BusinessCustomerRepository businessCustomerRepository,
-                           OfficerLoginRepository officerLoginRepository) {
+                           OfficerLoginRepository officerLoginRepository,
+                           EmailService emailService) {
 
         this.privatePrivateCustomerRepository = privatePrivateCustomerRepository;
         this.businessCustomerRepository = businessCustomerRepository;
         this.officerLoginRepository = officerLoginRepository;
+        this.emailService = emailService;
     }
 
     // private
@@ -56,22 +62,34 @@ public class CustomerService {
         return CustomerUtils.privatesToResponse(p);
     }
 
-    public ObjectIdContainer addPrivateCustomer(Leasing<PrivateCustomer> customer) {
+    public ObjectIdContainer addPrivateCustomer(Leasing<PrivateCustomer> customer) throws IOException, MessagingException {
         Private dbObject = new Private(customer);
         privatePrivateCustomerRepository.save(dbObject);
-        return CustomerUtils.addIdToContainer(dbObject.getId());
+        if (CustomerUtils.isCustomerValid(dbObject)) {
+            String msg = "<p>Hi <b>" + dbObject.getFirstName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
+                    dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
+                    "check application status.</a></p><p>Blue Leasing</p>";
+
+            emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
+
+            return CustomerUtils.addIdToContainer(dbObject.getId());
+        }
+        return new ObjectIdContainer();
     }
 
-    public UpdateResponse updatePrivateCustomer(ObjectId id, CustomerResponse<Private> customer) {
+    public UpdateResponse updatePrivateCustomer(ObjectId id, CustomerResponse<Private> customer) throws IOException, MessagingException {
         if (isAuthorizedOfficer(customer.getLoginModel())) {
             Private p = privatePrivateCustomerRepository.findById(id);
             p.setStatus(customer.getStatus());
             privatePrivateCustomerRepository.save(p);
+            String msg = "<p>Hi <b>" + p.getFirstName() + "</b>!</p><p>Your application status has been changed.</p><p>Blue Leasing</p>";
+
+            emailService.sendEmail(new EmailMsg(p.getEmail(), "Status update", msg));
             return new UpdateResponse(p.getId().toString(), p.getStatus());
 
-        } else {
-            return new UpdateResponse();
         }
+
+        return new UpdateResponse();
 
     }
 
@@ -92,22 +110,37 @@ public class CustomerService {
         return CustomerUtils.businessToResponse(b);
     }
 
-    public ObjectIdContainer addBusinessCustomer(Leasing<BusinessCustomer> customer) {
+    public ObjectIdContainer addBusinessCustomer(Leasing<BusinessCustomer> customer) throws IOException, MessagingException {
         Business dbObject = new Business(customer);
         businessCustomerRepository.save(dbObject);
-        return CustomerUtils.addIdToContainer(dbObject.getId());
+        if (CustomerUtils.isCustomerValid(dbObject)) {
+            String msg = "<p>Hi <b>" + dbObject.getCompanyName() + "</b>!</p><p>Thank You for choosing us!<br>This is application id: <b>" +
+                    dbObject.getIdHex() + "</b>. You can use it to <a href=\"https://leasing-app-front.herokuapp.com\">" +
+                    "check application status.</a></p><p>Blue Leasing</p>";
+
+            emailService.sendEmail(new EmailMsg(dbObject.getEmail(), "Application status id", msg));
+
+            return CustomerUtils.addIdToContainer(dbObject.getId());
+        }
+        return new ObjectIdContainer();
     }
 
-    public UpdateResponse updateBusinessCustomer(ObjectId id, CustomerResponse<Business> customer) {
+    public UpdateResponse updateBusinessCustomer(ObjectId id, CustomerResponse<Business> customer) throws IOException, MessagingException {
         if (isAuthorizedOfficer(customer.getLoginModel())) {
             Business b = businessCustomerRepository.findById(id);
             b.setStatus(customer.getStatus());
             businessCustomerRepository.save(b);
+
+            String msg = "<p>Hi <b>" + b.getCompanyName() + "</b>!</p><p>Your application status has been changed.</p><p>Blue Leasing</p>";
+
+            emailService.sendEmail(new EmailMsg(b.getEmail(), "Status update", msg));
+
             return new UpdateResponse(b.getId().toString(), b.getStatus());
 
-        } else {
-            return new UpdateResponse();
         }
+
+        return new UpdateResponse();
+
     }
 
     // private + business
@@ -124,9 +157,10 @@ public class CustomerService {
             Collections.sort(responses);
             return responses;
 
-        } else {
-            return new ArrayList<CustomerResponse>();
         }
+
+        return new ArrayList<CustomerResponse>();
+
     }
 
     private boolean isAuthorizedOfficer(LoginModel authenticationData) {

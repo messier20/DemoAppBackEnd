@@ -17,9 +17,7 @@ public class BusinessCustomer {
 
     public BusinessCustomer() {}
 
-    public BusinessCustomer(@NotNull String name, @NotNull String code, @Email @NotNull String email,
-                            @NotNull @Pattern(regexp = "(\\+\\d{10,15})") String phoneNumber,
-                            @NotNull String address) {
+    public BusinessCustomer(String name, String code, String email, String phoneNumber, String address) {
         this.name = name;
         this.code = code;
         this.email = email;
