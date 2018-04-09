@@ -63,10 +63,16 @@ public class CustomerService {
     }
 
     public UpdateResponse updatePrivateCustomer(ObjectId id, CustomerResponse<Private> customer) {
-        Private p = privatePrivateCustomerRepository.findById(id);
-        p.setStatus(customer.getStatus());
-        privatePrivateCustomerRepository.save(p);
-        return new UpdateResponse(p.getId().toString(), p.getStatus());
+        if (isAuthorizedOfficer(customer.getLoginModel())) {
+            Private p = privatePrivateCustomerRepository.findById(id);
+            p.setStatus(customer.getStatus());
+            privatePrivateCustomerRepository.save(p);
+            return new UpdateResponse(p.getId().toString(), p.getStatus());
+
+        } else {
+            return new UpdateResponse();
+        }
+
     }
 
     // business
@@ -93,16 +99,21 @@ public class CustomerService {
     }
 
     public UpdateResponse updateBusinessCustomer(ObjectId id, CustomerResponse<Business> customer) {
-        Business b = businessCustomerRepository.findById(id);
-        b.setStatus(customer.getStatus());
-        businessCustomerRepository.save(b);
-        return new UpdateResponse(b.getId().toString(), b.getStatus());
+        if (isAuthorizedOfficer(customer.getLoginModel())) {
+            Business b = businessCustomerRepository.findById(id);
+            b.setStatus(customer.getStatus());
+            businessCustomerRepository.save(b);
+            return new UpdateResponse(b.getId().toString(), b.getStatus());
+
+        } else {
+            return new UpdateResponse();
+        }
     }
 
     // private + business
     public List<CustomerResponse> getAllCustomers(LoginModel authenticationData) {
 
-        if(isAuthorizedOfficer(authenticationData)) {
+        if (isAuthorizedOfficer(authenticationData)) {
             List<CustomerResponse> responses = new ArrayList<>();
             for (Private p : privatePrivateCustomerRepository.findAll()) {
                 responses.add(new CustomerResponse<Private>(p));
