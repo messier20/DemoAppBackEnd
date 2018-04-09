@@ -21,7 +21,7 @@ public class OfficerLoginController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public LoginResponse updateBusinessCustomer(@Valid @RequestBody LoginModel loginModel) {
+    public LoginResponse checkUserAuthenticity(@Valid @RequestBody LoginModel loginModel) {
         return officerLoginService.checkUserAuthenticity(loginModel);
     }
 

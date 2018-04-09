@@ -1,8 +1,12 @@
 package com.swedbank.itacademy.leasing.demoApp.models.leasingOfficer;
 
+import javax.validation.constraints.NotNull;
+
 public class LoginModel {
 
+    @NotNull
     private String email;
+    @NotNull
     private String password;
 
     public String getEmail() {
