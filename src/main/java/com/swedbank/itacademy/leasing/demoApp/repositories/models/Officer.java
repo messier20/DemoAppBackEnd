@@ -10,8 +10,7 @@ public class Officer {
         return email;
     }
 
-    public Officer() {
-    }
+    public Officer() {}
 
     public Officer(LoginModel user) {
         this.email = user.getEmail();

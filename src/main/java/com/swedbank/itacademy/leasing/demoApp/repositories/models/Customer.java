@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class Customer<T> implements Comparable<Customer<T>> {
     @Id

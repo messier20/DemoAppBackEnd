@@ -29,5 +29,4 @@ public class OfficerLoginController {
     public void addAuthenticatedUser(@Valid @RequestBody LoginModel userToAdd) {
         officerLoginService.addAuthenticatedUser(userToAdd);
     }
-
 }

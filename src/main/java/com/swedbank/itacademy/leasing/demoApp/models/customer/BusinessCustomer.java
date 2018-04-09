@@ -7,10 +7,9 @@ public class BusinessCustomer {
     private String name;
     @NotNull
     private String code;
-    @Email @NotNull
+    @NotNull
     private String email;
     @NotNull
-    @Pattern(regexp="(\\+\\d{10,15})")
     private String phoneNumber;
     @NotNull
     private String address;

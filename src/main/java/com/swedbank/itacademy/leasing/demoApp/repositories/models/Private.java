@@ -13,7 +13,6 @@ public class Private extends Customer {
     @NotNull
     private String personalCode;
 
-
     public Private() {}
 
     public Private(Leasing<PrivateCustomer> customerLeasing) {
