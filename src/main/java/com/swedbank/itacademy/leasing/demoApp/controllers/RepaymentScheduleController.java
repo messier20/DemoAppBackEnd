@@ -24,5 +24,4 @@ public class RepaymentScheduleController {
     public RepaymentSchedule getRepaymentSchedule(@Valid @RequestBody LoanCalculatorInput loanCalculatorInput) {
         return repaymentScheduleService.calculateRepaymentSchedule(loanCalculatorInput);
     }
-
 }

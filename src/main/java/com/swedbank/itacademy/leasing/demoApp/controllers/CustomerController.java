@@ -3,7 +3,6 @@ package com.swedbank.itacademy.leasing.demoApp.controllers;
 import com.swedbank.itacademy.leasing.demoApp.beans.CustomerResponse;
 import com.swedbank.itacademy.leasing.demoApp.beans.ObjectIdContainer;
 import com.swedbank.itacademy.leasing.demoApp.beans.UpdateResponse;
-import com.swedbank.itacademy.leasing.demoApp.models.customer.ApplicationStatus;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.BusinessCustomer;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.Leasing;
 import com.swedbank.itacademy.leasing.demoApp.models.customer.PrivateCustomer;
