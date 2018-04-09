@@ -142,9 +142,7 @@ public class CustomerUtils implements CustomerConstants {
     }
 
     public static boolean isStringValid(String name) {
-        String regex = "\\w{1,65}\\b";
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(name).matches();
+        return isValueInRange(name.length(), 1, 65);
     }
 
     public static boolean isPhoneNumberValid(String phoneNumber) {
