@@ -65,9 +65,8 @@ public class RepaymentScheduleService {
 
         repayment.setRepaymentDate(DateUtils.dateToString(calcNextPaymentDate(loanCalculatorInput.getPaymentDate())));
         repayment.setRemainingAmountToRepay(loanCalculatorInput.getAssetPrice());
-        repayment.setAssetValuePaymentAmount(new BigDecimal(loanCalculatorInput.getAdvancePaymentAmount()));
+        repayment.setAssetValuePaymentAmount(new BigDecimal(loanCalculatorInput.getAdvancePaymentAmount()).add(new BigDecimal(loanCalculatorInput.getContractFee())));
         repayment.setInterestPaymentAmount(BigDecimal.ZERO);
-        repayment.setContractFee(new BigDecimal(loanCalculatorInput.getContractFee()));
         repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment));
 
         return repayment;
@@ -88,7 +87,6 @@ public class RepaymentScheduleService {
             repayment.setAssetValuePaymentAmount(tempAssetValuePayment);
         }
 
-        repayment.setContractFee(BigDecimal.ZERO);
         repayment.setTotalPaymentAmount(LoanUtils.calculateTotalPaymentAmount(repayment));
 
         return repayment;
