@@ -47,7 +47,7 @@ public class CustomerUtils implements CustomerConstants {
             customerInfo = customer.getCustomerType() == CustomerType.PRIVATE &&
                     isStringValid((((Private) customer).getFirstName())) &&
                     isStringValid(((Private) customer).getLastName()) &&
-                    isPersonalCodeValid(((Private) customer).getPersonalCode()) &&
+                    isCompanyCodeValid(((Private) customer).getPersonalCode()) &&
                     isValueInRange(customer.getAssetPrice(), minPrivateAssetPrice, maxAssetPrice);
         }
         if (customer instanceof Business) {
